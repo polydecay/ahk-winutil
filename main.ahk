@@ -25,7 +25,7 @@ Pause:: Return
 Pause & Esc:: Suspend, Toggle
 Pause & r:: Reload
 Pause & h:: PrintHelp()
-Pause & i:: Return
+Pause & i:: PrintWindowInfo(GetWindow())
 Pause & CapsLock:: Return
 
 ~MButton & LButton:: Return
@@ -112,6 +112,25 @@ PrintHelp() {
 	Text := Text . "`n" . "Shift-Ctrl-Alt-F4:`t" . "Application specific function 4"
 
 	MsgBox, 0, AHK-Script v%G_Version% - Help, %Text%
+}
+
+PrintWindowInfo(Window) {
+	WinGet, Process, ProcessName, ahk_id %Window%
+	WinGetTitle, Title, ahk_id %Window%
+	WinGetClass, Class, ahk_id %Window%
+	WinGet, WinStyle, Style, ahk_id %Window%
+	WinGetPos, X, Y, Width, Height, ahk_id %Window%
+
+	Text := "Process: " . Process
+	Text := Text . "`n" . "Title: " . Title
+	Text := Text . "`n" . "Class: " . Class
+	Text := Text . "`n" . "Style: " . WinStyle
+
+	Text := Text . "`n"
+	Text := Text . "`n" . "X: " . X . ", Y: " . Y
+	Text := Text . "`n" . "W: " . Width . ", H: " . Height
+
+	MsgBox, 0, Window Information, %Text%
 }
 
 ; --------------------------------------------------------------------
