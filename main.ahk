@@ -5,7 +5,6 @@
 #NoEnv
 #NoTrayIcon
 #SingleInstance, force
-#UseHook
 SetTitleMatchMode, 2
 StringCaseSense, On
 AutoTrim, Off
