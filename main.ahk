@@ -31,12 +31,12 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 ~MButton & LButton:: Return
 ~MButton & RButton:: Return
 
-#MButton:: Return
+#MButton:: ToggleWindowAlwaysOnTop(GetWindow("MouseWin"))
 #LButton:: Return
 #RButton:: Return
 
 #w:: Return
-#a:: Return
+#a:: ToggleWindowAlwaysOnTop(GetWindow())
 #s:: Return
 
 ^#Up:: Return
@@ -66,6 +66,28 @@ Pause & m:: Return
 
 ; --------------------------------------------------------------------
 ; Window State Functions
+
+ToggleWindowAlwaysOnTop(Window) {
+	WinGet, ExStyle, ExStyle, ahk_id %Window%
+	if (ExStyle & 0x8) {
+		SetWindowAlwaysOnTop(Window, "Off")
+	} else {
+		SetWindowAlwaysOnTop(Window, "On")
+	}
+}
+
+SetWindowAlwaysOnTop(Window, State := "On") {
+	WinSet, AlwaysOnTop, %State%, ahk_id %Window%
+
+	; Move the window to the bottom when disabling AlwaysOnTop to make sure it's
+	; not obscuring the active-window.
+	if (State == "Off") {
+		WinGet, ActiveWindow,, A
+		if (ActiveWindow != Window) {
+			WinSet, Bottom,, ahk_id %Window%
+		}
+	}
+}
 
 ; --------------------------------------------------------------------
 ; CLipboard Functions
