@@ -13,7 +13,7 @@ SetWinDelay, 25
 
 ; GLobal variables
 global G_Version := "0.0.0"
-global G_CapsLockMode := 1
+global G_CapsLockRebind := true
 global G_Clip := ""
 
 ; --------------------------------------------------------------------
@@ -26,7 +26,7 @@ Pause & Esc:: Suspend, Toggle
 Pause & r:: Reload
 Pause & h:: PrintHelp()
 Pause & i:: PrintWindowInfo(GetWindow())
-Pause & CapsLock:: Return
+Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 
 ~MButton & LButton:: Return
 ~MButton & RButton:: Return
@@ -55,6 +55,11 @@ Pause & m:: Return
 +^!F2:: Return
 +^!F3:: Return
 +^!F4:: Return
+
+#if (G_CapsLockRebind)
+	*CapsLock:: Send {Blind}{Shift DownTemp}{Ctrl DownTemp}{Alt DownTemp}
+	*CapsLock up:: Send {Blind}{Shift Up}{Ctrl Up}{Alt Up}
+#if
 
 ; --------------------------------------------------------------------
 ; Window Resizing/Positioning Functions
