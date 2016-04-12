@@ -44,8 +44,8 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 ^#Left:: Return
 ^#Right:: Return
 
-^!c:: Return
-^!v:: Return
++^c:: CopyToClipboard()
++^v:: PasteFromClipboard()
 
 Pause & b:: Return
 Pause & n:: Return
@@ -69,6 +69,29 @@ Pause & m:: Return
 
 ; --------------------------------------------------------------------
 ; CLipboard Functions
+
+CopyToClipboard() {
+	; Save the original clipboard content.
+	Saved := ClipboardAll
+
+	Send ^c
+	ClipWait, 1
+	G_Clip := Clipboard
+
+	; Restore the original clipboard.
+	Clipboard := Saved
+}
+
+PasteFromClipboard() {
+	; Save the original clipboard content.
+	Saved := ClipboardAll
+
+	Clipboard := G_Clip
+	Send ^v
+
+	; Restore the original clipboard.
+	Clipboard := Saved
+}
 
 ; --------------------------------------------------------------------
 ; Utility Functions
