@@ -32,7 +32,7 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 
 #MButton:: ToggleWindowAlwaysOnTop(GetWindow("MouseWin"))
 #LButton:: ToggleWindowCaption(GetWindow("MouseWin"))
-#RButton:: Return
+#RButton:: ToggleWindowBorders(GetWindow("MouseWin"))
 
 #w:: Return
 #a:: ToggleWindowAlwaysOnTop(GetWindow())
@@ -105,6 +105,32 @@ SetWindowCaption(Window, Enable := true) {
 	} else {
 		WinSet, Style, -0x400000, ahk_id %Window% ; Disable WS_DLGFRAME
 	}
+}
+
+ToggleWindowBorders(Window) {
+	BorderStyle := GetWindowBorderStyle(Window)
+	if (BorderStyle == "NoCaption") {
+		SetWindowCaption(Window, true)
+		SetWindowBorders(Window, false)
+	} else if (BorderStyle == "NoBorders") {
+		SetWindowBorders(Window, true)
+	} else {
+		SetWindowBorders(Window, false)
+	}
+}
+
+SetWindowBorders(Window, Enable := true) {
+	if (Enable) {
+		WinSet, Style, +0xC00000, ahk_id %Window% ; Enable WS_CAPTION
+		WinSet, Style, +0x40000, ahk_id %Window% ; Enable WS_SIZEBOX
+	} else {
+		WinSet, Style, -0xC00000, ahk_id %Window% ; Enable WS_CAPTION
+		WinSet, Style, -0x40000, ahk_id %Window% ; Disable WS_SIZEBOX
+	}
+
+	; Make sure the window is refreshed after changing WS_SIZEBOX.
+	Sleep 10 ; Wait for the window style to update.
+	NudgeWindow(Window)
 }
 
 ; --------------------------------------------------------------------
