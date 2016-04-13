@@ -270,7 +270,7 @@ PrintWindowInfo(Window) {
 GetWindow(Window := "") {
 	if (not Window) {
 		WinGet, Window,, A
-	} else if (Window = "MouseWin") {
+	} else if (Window == "MouseWin") {
 		MouseGetPos,,, Window
 	}
 
