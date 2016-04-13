@@ -215,7 +215,9 @@ GetWindow(Window := "") {
 
 	; Filter out Windows core UI elements to prevent accidental modifications.
 	WinGet, PName, ProcessName, ahk_id %Window%
-	if ((PName == "Explorer.EXE") or (PName == "ShellExperienceHost.exe") or (PName == "SearchUI.exe")) {
+	if ((PName == "Explorer.EXE")
+	   or (PName == "ShellExperienceHost.exe")
+	   or (PName == "SearchUI.exe")) {
 		return ""
 	}
 
