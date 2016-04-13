@@ -31,7 +31,7 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 ~MButton & RButton:: Return
 
 #MButton:: ToggleWindowAlwaysOnTop(GetWindow("MouseWin"))
-#LButton:: Return
+#LButton:: ToggleWindowCaption(GetWindow("MouseWin"))
 #RButton:: Return
 
 #w:: Return
@@ -85,6 +85,25 @@ SetWindowAlwaysOnTop(Window, State := "On") {
 		if (ActiveWindow != Window) {
 			WinSet, Bottom,, ahk_id %Window%
 		}
+	}
+}
+
+ToggleWindowCaption(Window) {
+	BorderStyle := GetWindowBorderStyle(Window)
+	if (BorderStyle = "NoCaption") {
+		SetWindowCaption(Window, true)
+	} else {
+		SetWindowCaption(Window, false)
+	}
+}
+
+SetWindowCaption(Window, Enable := true) {
+	; Set the WS_DLGFRAME instead of WS_CAPTION because WS_CAPTION will mess with the WS_BORDER
+	; style. WS_CAPTION will also resize the window by 1 pixel in all diractions.
+	if (Enable) {
+		WinSet, Style, +0x400000, ahk_id %Window% ; Enable WS_DLGFRAME
+	} else {
+		WinSet, Style, -0x400000, ahk_id %Window% ; Disable WS_DLGFRAME
 	}
 }
 
