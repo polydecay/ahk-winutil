@@ -122,6 +122,12 @@ ToggleWindowBorders(Window) {
 }
 
 SetWindowBorders(Window, Enable := true, KeepInnerSize := false) {
+	; Changing WS_SIZEBOX on a maximized window can have unpredictable behavior.
+	WinGet, WinStatus, MinMax, ahk_id %Window%
+	if (WinStatus != 0) {
+		return
+	}
+
 	if (Enable) {
 		WinSet, Style, +0xC00000, ahk_id %Window% ; Enable WS_CAPTION
 		WinSet, Style, +0x40000, ahk_id %Window% ; Enable WS_SIZEBOX
