@@ -121,7 +121,7 @@ ToggleWindowBorders(Window) {
 	}
 }
 
-SetWindowBorders(Window, Enable := true) {
+SetWindowBorders(Window, Enable := true, KeepInnerSize := false) {
 	if (Enable) {
 		WinSet, Style, +0xC00000, ahk_id %Window% ; Enable WS_CAPTION
 		WinSet, Style, +0x40000, ahk_id %Window% ; Enable WS_SIZEBOX
@@ -130,9 +130,19 @@ SetWindowBorders(Window, Enable := true) {
 		WinSet, Style, -0x40000, ahk_id %Window% ; Disable WS_SIZEBOX
 	}
 
-	; Make sure the window is refreshed after changing WS_SIZEBOX.
 	Sleep 10 ; Wait for the window style to update.
-	NudgeWindow(Window)
+
+	if (KeepInnerSize) {
+		WinGetPos, X, Y, W, H, ahk_id %Window%
+		if (Enable) {
+			WinMove, ahk_id %Window%,, X - 8, Y - 31, W + 16, H + 39
+		} else {
+			WinMove, ahk_id %Window%,, X + 8, Y + 31, W - 16, H - 39
+		}
+	} else {
+		; Make sure the window is refreshed after changing WS_SIZEBOX.
+		NudgeWindow(Window)
+	}
 }
 
 ; --------------------------------------------------------------------
