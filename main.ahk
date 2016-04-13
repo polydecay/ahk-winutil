@@ -88,14 +88,14 @@ SetWindowAlwaysOnTop(Window, State := "On") {
 	}
 }
 
-ToggleWindowCaption(Window) {
+ToggleWindowCaption(Window, KeepInnerSize := false) {
 	BorderStyle := GetWindowBorderStyle(Window)
 	if (BorderStyle = "NoCaption") {
-		SetWindowCaption(Window, true)
+		SetWindowCaption(Window, true, KeepInnerSize)
 	} else if (BorderStyle == "NoBorders") {
-		SetWindowBorders(Window, true)
+		SetWindowBorders(Window, true, KeepInnerSize)
 	} else {
-		SetWindowCaption(Window, false)
+		SetWindowCaption(Window, false, KeepInnerSize)
 	}
 }
 
