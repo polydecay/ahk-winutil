@@ -99,13 +99,30 @@ ToggleWindowCaption(Window) {
 	}
 }
 
-SetWindowCaption(Window, Enable := true) {
+SetWindowCaption(Window, Enable := true, KeepInnerSize := false) {
 	; Set the WS_DLGFRAME instead of WS_CAPTION because WS_CAPTION will mess with the WS_BORDER
 	; style. WS_CAPTION will also resize the window by 1 pixel in all diractions.
 	if (Enable) {
 		WinSet, Style, +0x400000, ahk_id %Window% ; Enable WS_DLGFRAME
 	} else {
 		WinSet, Style, -0x400000, ahk_id %Window% ; Disable WS_DLGFRAME
+	}
+
+	if (KeepInnerSize) {
+		; Don't change teh window size while it's maximized.
+		WinGet, WinStatus, MinMax, ahk_id %Window%
+		if (WinStatus != 0) {
+			Return
+		}
+
+		Sleep 10 ; Wait for the window style to update
+
+		WinGetPos, X, Y, W, H, ahk_id %Window%
+		if (Enable) {
+			WinMove, ahk_id %Window%,, X, Y - 23, W, H + 23
+		} else {
+			WinMove, ahk_id %Window%,, X, Y + 23, W, H - 23
+		}
 	}
 }
 
