@@ -33,6 +33,8 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 #MButton:: ToggleWindowAlwaysOnTop(GetWindow("MouseWin"))
 #LButton:: ToggleWindowCaption(GetWindow("MouseWin"))
 #RButton:: ToggleWindowBorders(GetWindow("MouseWin"))
++#LButton:: ToggleWindowCaption(GetWindow("MouseWin"), true)
++#RButton:: ToggleWindowBorders(GetWindow("MouseWin"), true)
 
 #w:: Return
 #a:: ToggleWindowAlwaysOnTop(GetWindow())
@@ -212,6 +214,8 @@ PrintHelp() {
 	Text := Text . "`n" . "Win-MButton:`t" . "Toggle mouse-window always-on-top"
 	Text := Text . "`n" . "Win-LButton:`t" . "Toggle mouse-window caption"
 	Text := Text . "`n" . "Win-RButton:`t" . "Toggle mouse-window borders"
+	Text := Text . "`n" . "Shift-Win-LButton:`t" . "Toggle mouse-window caption (keep inner size)"
+	Text := Text . "`n" . "Shift-Win-RButton:`t" . "Toggle mouse-window borders (keep inner size)"
 
 	Text := Text . "`n"
 	Text := Text . "`n" . "Win-W:`t`t" . "Close active-window"
