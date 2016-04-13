@@ -92,6 +92,8 @@ ToggleWindowCaption(Window) {
 	BorderStyle := GetWindowBorderStyle(Window)
 	if (BorderStyle = "NoCaption") {
 		SetWindowCaption(Window, true)
+	} else if (BorderStyle == "NoBorders") {
+		SetWindowBorders(Window, true)
 	} else {
 		SetWindowCaption(Window, false)
 	}
