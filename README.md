@@ -12,7 +12,7 @@ My AutoHotkey script, rewritten for Windows 10.
 	MButton->RButton: Drag-resize mouse-window
 
 	Win-MButton:      Toggle mouse-window always-on-top
-	Win-LButton:      Toggle mouse-window captions
+	Win-LButton:      Toggle mouse-window caption
 	Win-RButton:      Toggle mouse-window borders
 
 	Win-W:            Close active-window

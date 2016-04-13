@@ -130,7 +130,7 @@ PrintHelp() {
 
 	Text := Text . "`n"
 	Text := Text . "`n" . "Win-MButton:`t" . "Toggle mouse-window always-on-top"
-	Text := Text . "`n" . "Win-LButton:`t" . "Toggle mouse-window captions"
+	Text := Text . "`n" . "Win-LButton:`t" . "Toggle mouse-window caption"
 	Text := Text . "`n" . "Win-RButton:`t" . "Toggle mouse-window borders"
 
 	Text := Text . "`n"
@@ -208,8 +208,8 @@ GetWindowBorderStyle(Window) {
 	WinGet, WinStyle, Style, ahk_id %Window%
 	if (not WinStyle & 0xC00000) and (not WinStyle & 0x40000) {
 		Return "NoBorders"
-	} else if (not WinStyle & 0x40000) {
-		Return "NoCaptions"
+	} else if (not WinStyle & 0x400000) {
+		Return "NoCaption"
 	} else {
 		Return "Default"
 	}
