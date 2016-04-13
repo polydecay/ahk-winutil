@@ -126,15 +126,15 @@ SetWindowCaption(Window, Enable := true, KeepInnerSize := false) {
 	}
 }
 
-ToggleWindowBorders(Window) {
+ToggleWindowBorders(Window, KeepInnerSize := false) {
 	BorderStyle := GetWindowBorderStyle(Window)
 	if (BorderStyle == "NoCaption") {
-		SetWindowCaption(Window, true)
-		SetWindowBorders(Window, false)
+		SetWindowCaption(Window, true, KeepInnerSize)
+		SetWindowBorders(Window, false, KeepInnerSize)
 	} else if (BorderStyle == "NoBorders") {
-		SetWindowBorders(Window, true)
+		SetWindowBorders(Window, true, KeepInnerSize)
 	} else {
-		SetWindowBorders(Window, false)
+		SetWindowBorders(Window, false, KeepInnerSize)
 	}
 }
 
