@@ -27,8 +27,8 @@ Pause & h:: PrintHelp()
 Pause & i:: PrintWindowInfo(GetWindow())
 Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 
-~MButton & LButton:: DragWindow()
-~MButton & RButton:: DragResizeWindow()
+~MButton & LButton:: SmartDragWindow()
+~MButton & RButton:: SmartDragResizeWindow()
 
 #MButton:: ToggleWindowAlwaysOnTop(GetWindow("MouseWin"))
 #LButton:: ToggleWindowCaption(GetWindow("MouseWin"))
@@ -65,6 +65,21 @@ Pause & m:: Return
 ; --------------------------------------------------------------------
 ; Window Resizing/Positioning Functions
 
+SmartDragWindow() {
+	CoordMode, Mouse
+	MouseGetPos, MouseX, MouseY, MouseWin
+	WinGetPos, WinX, WinY, WinW, WinH, ahk_id %MouseWin%
+
+	EdgeSize := 16
+	if ((MouseX - WinX < EdgeSize) or (WinX + WinW - MouseX < EdgeSize)) {
+		DragWindow("X")
+	} else if ((MouseY - WinY < EdgeSize) or (WinY + WinH - MouseY < EdgeSize)) {
+		DragWindow("Y")
+	} else {
+		DragWindow()
+	}
+}
+
 DragWindow(Constraint := "") {
 	CoordMode, Mouse
 	SetWinDelay, 0 ; Reduce the WinDelay to make the dragging smoother.
@@ -92,6 +107,29 @@ DragWindow(Constraint := "") {
 		MouseLastX := MouseX
 		MouseLastY := MouseY
 	}
+}
+
+SmartDragResizeWindow() {
+	CoordMode, Mouse
+	MouseGetPos, MouseX, MouseY, MouseWin
+	WinGetPos, WinX, WinY, WinW, WinH, ahk_id %MouseWin%
+
+	EdgeSize := 16
+	Constraint := ""
+
+	if (MouseY - WinY < EdgeSize) {
+		Constraint := "Top"
+	} else if (WinY + WinH - MouseY < EdgeSize) {
+		Constraint := "Bottom"
+	}
+
+	if (MouseX - WinX < EdgeSize) {
+		Constraint := Constraint . "Left"
+	} else if (WinX + WinW - MouseX < EdgeSize) {
+		Constraint := Constraint . "Right"
+	}
+
+	DragResizeWindow(Constraint)
 }
 
 DragResizeWindow(ResizeFrom := "") {
