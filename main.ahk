@@ -28,7 +28,7 @@ Pause & i:: PrintWindowInfo(GetWindow())
 Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 
 ~MButton & LButton:: DragWindow()
-~MButton & RButton:: Return
+~MButton & RButton:: DragResizeWindow()
 
 #MButton:: ToggleWindowAlwaysOnTop(GetWindow("MouseWin"))
 #LButton:: ToggleWindowCaption(GetWindow("MouseWin"))
@@ -87,6 +87,50 @@ DragWindow(Constraint := "") {
 			WinMove, ahk_id %MouseWin%,, WinX + MouseX - MouseLastX
 		} else if (Constraint == "Y") {
 			WinMove, ahk_id %MouseWin%,,, WinY + MouseY - MouseLastY
+		}
+
+		MouseLastX := MouseX
+		MouseLastY := MouseY
+	}
+}
+
+DragResizeWindow(ResizeFrom := "") {
+	CoordMode, Mouse
+	SetWinDelay, 0 ; Reduce the WinDelay to make the dragging smoother.
+
+	MouseGetPos, MouseLastX, MouseLastY, MouseWin
+
+	; Abort if the window is maximized.
+	WinGet, WinStatus, MinMax, ahk_id %MouseWin%
+	if (WinStatus != 0) {
+		return
+	}
+
+	While GetKeyState("RButton", "P") {
+		MouseGetPos, MouseX, MouseY
+		WinGetPos, WinX, WinY, WinW, WinH, ahk_id %MouseWin%
+
+		if ((not ResizeFrom) or (ResizeFrom == "BottomRight")) {
+			WinMove, ahk_id %MouseWin%,,,, WinW + MouseX - MouseLastX, WinH + MouseY - MouseLastY
+		} else if (ResizeFrom == "Bottom") {
+			WinMove, ahk_id %MouseWin%,,,,, WinH + MouseY - MouseLastY
+		} else if (ResizeFrom == "BottomLeft") {
+			WinMove, ahk_id %MouseWin%,
+			       , WinX + MouseX - MouseLastX,, WinW - MouseX + MouseLastX, WinH + MouseY - MouseLastY
+		} else if (ResizeFrom == "Left") {
+			WinMove, ahk_id %MouseWin%,
+			       , WinX + MouseX - MouseLastX,, WinW - MouseX + MouseLastX
+		} else if (ResizeFrom == "TopLeft") {
+			WinMove, ahk_id %MouseWin%,
+			       , WinX + MouseX - MouseLastX, WinY + MouseY - MouseLastY
+			       , WinW - MouseX + MouseLastX, WinH - MouseY + MouseLastY
+		} else if (ResizeFrom == "Top") {
+			WinMove, ahk_id %MouseWin%,,, WinY + MouseY - MouseLastY,, WinH - MouseY + MouseLastY
+		} else if (ResizeFrom == "TopRight") {
+			WinMove, ahk_id %MouseWin%,,
+			       , WinY + MouseY - MouseLastY, WinW + MouseX - MouseLastX, WinH - MouseY + MouseLastY
+		} else if (ResizeFrom == "Right") {
+			WinMove, ahk_id %MouseWin%,,,, WinW + MouseX - MouseLastX
 		}
 
 		MouseLastX := MouseX
