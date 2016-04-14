@@ -27,7 +27,7 @@ Pause & h:: PrintHelp()
 Pause & i:: PrintWindowInfo(GetWindow())
 Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 
-~MButton & LButton:: Return
+~MButton & LButton:: DragWindow()
 ~MButton & RButton:: Return
 
 #MButton:: ToggleWindowAlwaysOnTop(GetWindow("MouseWin"))
@@ -64,6 +64,35 @@ Pause & m:: Return
 
 ; --------------------------------------------------------------------
 ; Window Resizing/Positioning Functions
+
+DragWindow(Constraint := "") {
+	CoordMode, Mouse
+	SetWinDelay, 0 ; Reduce the WinDelay to make the dragging smoother.
+
+	MouseGetPos, MouseLastX, MouseLastY, MouseWin
+
+	; Abort if the window is maximized.
+	WinGet, WinStatus, MinMax, ahk_id %MouseWin%
+	if (WinStatus != 0) {
+		return
+	}
+
+	While GetKeyState("LButton", "P") {
+		MouseGetPos, MouseX, MouseY
+		WinGetPos, WinX, WinY,,, ahk_id %MouseWin%
+
+		if (not Constraint) {
+			WinMove, ahk_id %MouseWin%,, WinX + MouseX - MouseLastX, WinY + MouseY - MouseLastY
+		} else if (Constraint == "X") {
+			WinMove, ahk_id %MouseWin%,, WinX + MouseX - MouseLastX
+		} else if (Constraint == "Y") {
+			WinMove, ahk_id %MouseWin%,,, WinY + MouseY - MouseLastY
+		}
+
+		MouseLastX := MouseX
+		MouseLastY := MouseY
+	}
+}
 
 ; --------------------------------------------------------------------
 ; Window State Functions
