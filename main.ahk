@@ -38,7 +38,7 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 
 #w:: CloseWindow(GetWindow())
 #a:: ToggleWindowAlwaysOnTop(GetWindow())
-#s:: Return
+#s:: InteractiveWindowResize(GetWindow())
 
 ^#Up:: Return
 ^#Down:: Return
@@ -174,6 +174,13 @@ DragResizeWindow(ResizeFrom := "") {
 		MouseLastX := MouseX
 		MouseLastY := MouseY
 	}
+}
+
+InteractiveWindowResize(Window) {
+	InputBox, WinW, Window Width, Enter window width:,, 200, 125
+	InputBox, WinH, Window Height, Enter window height:,, 200, 125
+
+	WinMove, ahk_id %Window%,,,, WinW, WinH
 }
 
 ; --------------------------------------------------------------------
