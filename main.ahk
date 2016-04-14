@@ -36,7 +36,7 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 +#LButton:: ToggleWindowCaption(GetWindow("MouseWin"), true)
 +#RButton:: ToggleWindowBorders(GetWindow("MouseWin"), true)
 
-#w:: Return
+#w:: CloseWindow(GetWindow())
 #a:: ToggleWindowAlwaysOnTop(GetWindow())
 #s:: Return
 
@@ -375,6 +375,10 @@ PrintWindowInfo(Window) {
 	Text := Text . "`n" . "W: " . Width . ", H: " . Height
 
 	MsgBox, 0, Window Information, %Text%
+}
+
+CloseWindow(Window) {
+	WinClose, ahk_id %Window%
 }
 
 ; --------------------------------------------------------------------
