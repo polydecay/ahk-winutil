@@ -48,9 +48,9 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 +^c:: CopyToClipboard()
 +^v:: PasteFromClipboard()
 
-Pause & b:: Return
-Pause & n:: Return
-Pause & m:: Return
+; TODO: Resync these values with my current setup.
+Pause & n:: MoveMouse(5899)
+Pause & m:: MoveMouse(347, 17)
 
 +^!F1:: Return
 +^!F2:: Return
@@ -352,7 +352,6 @@ PrintHelp() {
 	Text := Text . "`n" . "Shift-Ctrl-V:`t" . "Paste text to secondary clipboard"
 
 	Text := Text . "`n"
-	Text := Text . "`n" . "Pause-B:`t`t" . "FPS mouse accuracy check"
 	Text := Text . "`n" . "Pause-N:`t`t" . "FPS mouse sensitivity check slow"
 	Text := Text . "`n" . "Pause-M:`t`t" . "FPS mouse sensitivity check fast"
 
@@ -437,4 +436,12 @@ NudgeWindow(Window) {
 
 	; Restore the WinDelay
 	SetWinDelay, %O_WinDelay%
+}
+
+MoveMouse(Units, Times := 1, Interval := 1) {
+	While (Times > 0) {
+		DllCall("mouse_event", uint, 1, int, Units, int, 0)
+		Times--
+		Sleep Interval
+	}
 }

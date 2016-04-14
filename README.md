@@ -30,7 +30,6 @@ My AutoHotkey script, rewritten for Windows 10.
 	Shift-Ctrl-C:      Copy text to secondary clipboard
 	Shift-Ctrl-V:      Paste text to secondary clipboard
 
-	Pause-B:           FPS mouse accuracy check
 	Pause-N:           FPS mouse sensitivity check slow
 	Pause-M:           FPS mouse sensitivity check fast
 
