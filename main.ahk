@@ -40,22 +40,12 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 #a:: ToggleWindowAlwaysOnTop(GetWindow())
 #s:: InteractiveWindowResize(GetWindow())
 
-^#Up:: Return
-^#Down:: Return
-^#Left:: Return
-^#Right:: Return
-
 +^c:: CopyToClipboard()
 +^v:: PasteFromClipboard()
 
 ; TODO: Resync these values with my current setup.
 Pause & n:: MoveMouse(5899)
 Pause & m:: MoveMouse(347, 17)
-
-+^!F1:: Return
-+^!F2:: Return
-+^!F3:: Return
-+^!F4:: Return
 
 #if (G_CapsLockRebind)
 	*CapsLock:: Send {Blind}{Shift DownTemp}{Ctrl DownTemp}{Alt DownTemp}
@@ -342,24 +332,12 @@ PrintHelp() {
 	Text := Text . "`n" . "Win-P:`t`t" . "Set window position"
 
 	Text := Text . "`n"
-	Text := Text . "`n" . "Alt-Win-Up:`t" . "Pseudo fullscreen active-window"
-	Text := Text . "`n" . "Alt-Win-Down:`t" . "Center active-window"
-	Text := Text . "`n" . "Alt-Win-Left:`t" . "Snap active-window to left"
-	Text := Text . "`n" . "Alt-Win-Right:`t" . "Snap active-window to right"
-
-	Text := Text . "`n"
 	Text := Text . "`n" . "Shift-Ctrl-C:`t" . "Copy text to secondary clipboard"
 	Text := Text . "`n" . "Shift-Ctrl-V:`t" . "Paste text to secondary clipboard"
 
 	Text := Text . "`n"
 	Text := Text . "`n" . "Pause-N:`t`t" . "FPS mouse sensitivity check slow"
 	Text := Text . "`n" . "Pause-M:`t`t" . "FPS mouse sensitivity check fast"
-
-	Text := Text . "`n"
-	Text := Text . "`n" . "Shift-Ctrl-Alt-F1:`t" . "Application specific function 1"
-	Text := Text . "`n" . "Shift-Ctrl-Alt-F2:`t" . "Application specific function 2"
-	Text := Text . "`n" . "Shift-Ctrl-Alt-F3:`t" . "Application specific function 3"
-	Text := Text . "`n" . "Shift-Ctrl-Alt-F4:`t" . "Application specific function 4"
 
 	MsgBox, 0, AHK-Script v%G_Version% - Help, %Text%
 }

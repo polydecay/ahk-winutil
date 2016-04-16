@@ -22,21 +22,11 @@ My AutoHotkey script, rewritten for Windows 10.
 	Win-S:             Set window size
 	Win-P:             Set window position
 
-	Alt-Win-Up:        Pseudo fullscreen active-window
-	Alt-Win-Down:      Center active-window
-	Alt-Win-Left:      Snap active-window to left
-	Alt-Win-Right:     Snap active-window to right
-
 	Shift-Ctrl-C:      Copy text to secondary clipboard
 	Shift-Ctrl-V:      Paste text to secondary clipboard
 
 	Pause-N:           FPS mouse sensitivity check slow
 	Pause-M:           FPS mouse sensitivity check fast
-
-	Pause-F1:          Application specific function 1
-	Pause-F2:          Application specific function 2
-	Pause-F3:          Application specific function 3
-	Pause-F4:          Application specific function 4
 
 ## License
 Licensed under [The MIT License (MIT)](https://opensource.org/licenses/MIT) - Copyright &copy; 2016 Kim Simonsen.
