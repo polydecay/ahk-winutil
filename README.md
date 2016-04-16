@@ -17,6 +17,9 @@ My AutoHotkey script, rewritten for Windows 10.
 	Shift-Win-LButton: Toggle mouse-window caption (keep inner size)
 	Shift-Win-RButton: Toggle mouse-window borders (keep inner size)
 
+	Shift-Win-Z:       Set window region on active-window
+	Shift-Win-X:       Clear window region on active-window
+
 	Win-W:             Close active-window
 	Win-A:             Toggle active-window always-on-top
 	Win-S:             Set window size

@@ -40,6 +40,9 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 #a:: ToggleWindowAlwaysOnTop(GetWindow())
 #s:: InteractiveWindowResize(GetWindow())
 
++#z:: SetWindowRegion(GetWindow())
++#x:: ClearWindowRegion(GetWindow())
+
 +^c:: CopyToClipboard()
 +^v:: PasteFromClipboard()
 
@@ -278,6 +281,48 @@ SetWindowBorders(Window, Enable := true, KeepInnerSize := false) {
 	}
 }
 
+SetWindowRegion(Window) {
+	; The window region doesn't hide the borders so make sure they are
+	; disabled before starting.
+	BorderStyle := GetWindowBorderStyle(Window)
+	if (BorderStyle != "NoBorders") {
+		SetWindowBorders(Window, false, true)
+	}
+
+	WinGetPos,,, W, H, ahk_id %Window%
+
+	; Show tooltip message and get regions TOP-RIGHT corner.
+	ToolTip Select TOP-RIGHT Corner, 0, -25
+	KeyWait, LButton, D
+	MouseGetPos, MouseStartX, MouseStartY
+	KeyWait, LButton
+
+	; Show tooltip message and get regions BOTTOM-LEFT corner.
+	ToolTip Select BOTTOM-LEFT Corner, W - 166, H + 5
+	KeyWait, LButton, D
+	MouseGetPos, MouseEndX, MouseEndY
+	KeyWait, LButton
+
+	ToolTip ; Clear the tooltip.
+
+	RegionWidth := MouseEndX - MouseStartX
+	RegionHeight := MouseEndY - MouseStartY
+
+	WinSet, Region, %MouseStartX%-%MouseStartY% W%RegionWidth% H%RegionHeight%, ahk_id %Window%
+	WinActivate, ahk_id %Window% ; Refocus the window in case it was lost during region setup.
+}
+
+ClearWindowRegion(Window) {
+	; Reset the borders to work more consistently with SetWindowRegion.
+	BorderStyle := GetWindowBorderStyle(Window)
+	if (BorderStyle == "NoBorders") {
+		SetWindowBorders(Window, true, true)
+	}
+
+	WinSet, Region,, ahk_id %Window%
+	NudgeWindow(Window)
+}
+
 ; --------------------------------------------------------------------
 ; CLipboard Functions
 
@@ -324,6 +369,10 @@ PrintHelp() {
 	Text := Text . "`n" . "Win-RButton:`t" . "Toggle mouse-window borders"
 	Text := Text . "`n" . "Shift-Win-LButton:`t" . "Toggle mouse-window caption (keep inner size)"
 	Text := Text . "`n" . "Shift-Win-RButton:`t" . "Toggle mouse-window borders (keep inner size)"
+
+	Text := Text . "`n"
+	Text := Text . "`n" . "Shift-Win-Z:`t" . "Set window region on active-window"
+	Text := Text . "`n" . "Shift-Win-X:`t" . "Clear window region on active-window"
 
 	Text := Text . "`n"
 	Text := Text . "`n" . "Win-W:`t`t" . "Close active-window"
