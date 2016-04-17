@@ -10,7 +10,7 @@ StringCaseSense, On
 AutoTrim, Off
 SetWinDelay, 25
 
-; GLobal variables
+; GLobal variables.
 global G_Version := "0.0.0"
 global G_CapsLockRebind := true
 global G_Clip := ""
@@ -61,12 +61,12 @@ Pause & m:: MoveMouse(347, 17)
 SmartDragWindow() {
 	CoordMode, Mouse
 	MouseGetPos, MouseX, MouseY, MouseWin
-	WinGetPos, WinX, WinY, WinW, WinH, ahk_id %MouseWin%
+	WinGetPos, X, Y, W, H, ahk_id %MouseWin%
 
 	EdgeSize := 16
-	if ((MouseX - WinX < EdgeSize) or (WinX + WinW - MouseX < EdgeSize)) {
+	if ((MouseX - X < EdgeSize) or (X + W - MouseX < EdgeSize)) {
 		DragWindow("X")
-	} else if ((MouseY - WinY < EdgeSize) or (WinY + WinH - MouseY < EdgeSize)) {
+	} else if ((MouseY - Y < EdgeSize) or (Y + H - MouseY < EdgeSize)) {
 		DragWindow("Y")
 	} else {
 		DragWindow()
@@ -87,14 +87,14 @@ DragWindow(Constraint := "") {
 
 	While GetKeyState("LButton", "P") {
 		MouseGetPos, MouseX, MouseY
-		WinGetPos, WinX, WinY,,, ahk_id %MouseWin%
+		WinGetPos, X, Y,,, ahk_id %MouseWin%
 
 		if (not Constraint) {
-			WinMove, ahk_id %MouseWin%,, WinX + MouseX - MouseLastX, WinY + MouseY - MouseLastY
+			WinMove, ahk_id %MouseWin%,, X + MouseX - MouseLastX, Y + MouseY - MouseLastY
 		} else if (Constraint == "X") {
-			WinMove, ahk_id %MouseWin%,, WinX + MouseX - MouseLastX
+			WinMove, ahk_id %MouseWin%,, X + MouseX - MouseLastX
 		} else if (Constraint == "Y") {
-			WinMove, ahk_id %MouseWin%,,, WinY + MouseY - MouseLastY
+			WinMove, ahk_id %MouseWin%,,, Y + MouseY - MouseLastY
 		}
 
 		MouseLastX := MouseX
@@ -105,20 +105,20 @@ DragWindow(Constraint := "") {
 SmartDragResizeWindow() {
 	CoordMode, Mouse
 	MouseGetPos, MouseX, MouseY, MouseWin
-	WinGetPos, WinX, WinY, WinW, WinH, ahk_id %MouseWin%
+	WinGetPos, X, Y, W, H, ahk_id %MouseWin%
 
 	EdgeSize := 16
 	Constraint := ""
 
-	if (MouseY - WinY < EdgeSize) {
+	if (MouseY - Y < EdgeSize) {
 		Constraint := "Top"
-	} else if (WinY + WinH - MouseY < EdgeSize) {
+	} else if (Y + H - MouseY < EdgeSize) {
 		Constraint := "Bottom"
 	}
 
-	if (MouseX - WinX < EdgeSize) {
+	if (MouseX - X < EdgeSize) {
 		Constraint := Constraint . "Left"
-	} else if (WinX + WinW - MouseX < EdgeSize) {
+	} else if (X + W - MouseX < EdgeSize) {
 		Constraint := Constraint . "Right"
 	}
 
@@ -139,29 +139,29 @@ DragResizeWindow(ResizeFrom := "") {
 
 	While GetKeyState("RButton", "P") {
 		MouseGetPos, MouseX, MouseY
-		WinGetPos, WinX, WinY, WinW, WinH, ahk_id %MouseWin%
+		WinGetPos, X, Y, W, H, ahk_id %MouseWin%
 
 		if ((not ResizeFrom) or (ResizeFrom == "BottomRight")) {
-			WinMove, ahk_id %MouseWin%,,,, WinW + MouseX - MouseLastX, WinH + MouseY - MouseLastY
+			WinMove, ahk_id %MouseWin%,,,, W + MouseX - MouseLastX, H + MouseY - MouseLastY
 		} else if (ResizeFrom == "Bottom") {
-			WinMove, ahk_id %MouseWin%,,,,, WinH + MouseY - MouseLastY
+			WinMove, ahk_id %MouseWin%,,,,, H + MouseY - MouseLastY
 		} else if (ResizeFrom == "BottomLeft") {
 			WinMove, ahk_id %MouseWin%,
-			       , WinX + MouseX - MouseLastX,, WinW - MouseX + MouseLastX, WinH + MouseY - MouseLastY
+			       , X + MouseX - MouseLastX,, W - MouseX + MouseLastX, H + MouseY - MouseLastY
 		} else if (ResizeFrom == "Left") {
 			WinMove, ahk_id %MouseWin%,
-			       , WinX + MouseX - MouseLastX,, WinW - MouseX + MouseLastX
+			       , X + MouseX - MouseLastX,, W - MouseX + MouseLastX
 		} else if (ResizeFrom == "TopLeft") {
 			WinMove, ahk_id %MouseWin%,
-			       , WinX + MouseX - MouseLastX, WinY + MouseY - MouseLastY
-			       , WinW - MouseX + MouseLastX, WinH - MouseY + MouseLastY
+			       , X + MouseX - MouseLastX, Y + MouseY - MouseLastY
+			       , W - MouseX + MouseLastX, H - MouseY + MouseLastY
 		} else if (ResizeFrom == "Top") {
-			WinMove, ahk_id %MouseWin%,,, WinY + MouseY - MouseLastY,, WinH - MouseY + MouseLastY
+			WinMove, ahk_id %MouseWin%,,, Y + MouseY - MouseLastY,, H - MouseY + MouseLastY
 		} else if (ResizeFrom == "TopRight") {
 			WinMove, ahk_id %MouseWin%,,
-			       , WinY + MouseY - MouseLastY, WinW + MouseX - MouseLastX, WinH - MouseY + MouseLastY
+			       , Y + MouseY - MouseLastY, W + MouseX - MouseLastX, H - MouseY + MouseLastY
 		} else if (ResizeFrom == "Right") {
-			WinMove, ahk_id %MouseWin%,,,, WinW + MouseX - MouseLastX
+			WinMove, ahk_id %MouseWin%,,,, W + MouseX - MouseLastX
 		}
 
 		MouseLastX := MouseX
@@ -170,10 +170,10 @@ DragResizeWindow(ResizeFrom := "") {
 }
 
 InteractiveWindowResize(Window) {
-	InputBox, WinW, Window Width, Enter window width:,, 200, 125
-	InputBox, WinH, Window Height, Enter window height:,, 200, 125
+	InputBox, W, Window Width, Enter window width:,, 200, 125
+	InputBox, H, Window Height, Enter window height:,, 200, 125
 
-	WinMove, ahk_id %Window%,,,, WinW, WinH
+	WinMove, ahk_id %Window%,,,, W, H
 }
 
 ; --------------------------------------------------------------------
@@ -203,7 +203,7 @@ SetWindowAlwaysOnTop(Window, State := "On") {
 
 ToggleWindowCaption(Window, KeepInnerSize := false) {
 	BorderStyle := GetWindowBorderStyle(Window)
-	if (BorderStyle = "NoCaption") {
+	if (BorderStyle == "NoCaption") {
 		SetWindowCaption(Window, true, KeepInnerSize)
 	} else if (BorderStyle == "NoBorders") {
 		SetWindowBorders(Window, true, KeepInnerSize)
@@ -216,9 +216,9 @@ SetWindowCaption(Window, Enable := true, KeepInnerSize := false) {
 	; Set the WS_DLGFRAME instead of WS_CAPTION because WS_CAPTION will mess with the WS_BORDER
 	; style. WS_CAPTION will also resize the window by 1 pixel in all diractions.
 	if (Enable) {
-		WinSet, Style, +0x400000, ahk_id %Window% ; Enable WS_DLGFRAME
+		WinSet, Style, +0x400000, ahk_id %Window% ; Enable WS_DLGFRAME.
 	} else {
-		WinSet, Style, -0x400000, ahk_id %Window% ; Disable WS_DLGFRAME
+		WinSet, Style, -0x400000, ahk_id %Window% ; Disable WS_DLGFRAME.
 	}
 
 	if (KeepInnerSize) {
@@ -228,7 +228,7 @@ SetWindowCaption(Window, Enable := true, KeepInnerSize := false) {
 			Return
 		}
 
-		Sleep 10 ; Wait for the window style to update
+		Sleep 10 ; Wait for the window style to update.
 
 		WinGetPos, X, Y, W, H, ahk_id %Window%
 		if (Enable) {
@@ -252,18 +252,18 @@ ToggleWindowBorders(Window, KeepInnerSize := false) {
 }
 
 SetWindowBorders(Window, Enable := true, KeepInnerSize := false) {
-	; Changing WS_SIZEBOX on a maximized window can have unpredictable behavior.
+	; Changing WS_SIZEBOX on a maximized window can cause unpredictable behavior.
 	WinGet, WinStatus, MinMax, ahk_id %Window%
 	if (WinStatus != 0) {
 		return
 	}
 
 	if (Enable) {
-		WinSet, Style, +0xC00000, ahk_id %Window% ; Enable WS_CAPTION
-		WinSet, Style, +0x40000, ahk_id %Window% ; Enable WS_SIZEBOX
+		WinSet, Style, +0xC00000, ahk_id %Window% ; Enable WS_CAPTION.
+		WinSet, Style, +0x40000, ahk_id %Window% ; Enable WS_SIZEBOX.
 	} else {
-		WinSet, Style, -0xC00000, ahk_id %Window% ; Enable WS_CAPTION
-		WinSet, Style, -0x40000, ahk_id %Window% ; Disable WS_SIZEBOX
+		WinSet, Style, -0xC00000, ahk_id %Window% ; Enable WS_CAPTION.
+		WinSet, Style, -0x40000, ahk_id %Window% ; Disable WS_SIZEBOX.
 	}
 
 	Sleep 10 ; Wait for the window style to update.
@@ -328,34 +328,34 @@ ClearWindowRegion(Window) {
 
 CopyToClipboard() {
 	; Save the original clipboard content.
-	Saved := ClipboardAll
+	SavedClip := ClipboardAll
 
 	Send ^c
 	ClipWait, 1
 	G_Clip := Clipboard
 
 	; Restore the original clipboard.
-	Clipboard := Saved
+	Clipboard := SavedClip
 }
 
 PasteFromClipboard() {
 	; Save the original clipboard content.
-	Saved := ClipboardAll
+	SavedClip := ClipboardAll
 
 	Clipboard := G_Clip
 	Send ^v
 
 	; Restore the original clipboard.
-	Clipboard := Saved
+	Clipboard := SavedClip
 }
 
 ; --------------------------------------------------------------------
 ; Utility Functions
 
 PrintHelp() {
-	Text := "Pause-Esc:`t" . "Trun AHK-Script on/off"
-	Text := Text . "`n" . "Pause-H:`t`t" . "Print AHK script help"
-	Text := Text . "`n" . "Pause-R:`t`t" . "Reload AHK script"
+	Text := "Pause-Esc:`t" . "Turn AHK-Script on/off"
+	Text := Text . "`n" . "Pause-H:`t`t" . "Print AHK-Script help"
+	Text := Text . "`n" . "Pause-R:`t`t" . "Reload AHK-Script"
 	Text := Text . "`n" . "Pause-I:`t`t" . "Print active-window information"
 	Text := Text . "`n" . "Pause-Caps:`t" . "Toggle caps lock mode"
 
@@ -378,11 +378,10 @@ PrintHelp() {
 	Text := Text . "`n" . "Win-W:`t`t" . "Close active-window"
 	Text := Text . "`n" . "Win-A:`t`t" . "Toggle active-window always-on-top"
 	Text := Text . "`n" . "Win-S:`t`t" . "Set window size"
-	Text := Text . "`n" . "Win-P:`t`t" . "Set window position"
 
 	Text := Text . "`n"
-	Text := Text . "`n" . "Shift-Ctrl-C:`t" . "Copy text to secondary clipboard"
-	Text := Text . "`n" . "Shift-Ctrl-V:`t" . "Paste text to secondary clipboard"
+	Text := Text . "`n" . "Shift-Ctrl-C:`t" . "Copy text to AHK clipboard"
+	Text := Text . "`n" . "Shift-Ctrl-V:`t" . "Paste text to AHK clipboard"
 
 	Text := Text . "`n"
 	Text := Text . "`n" . "Pause-N:`t`t" . "FPS mouse sensitivity check slow"
@@ -454,15 +453,15 @@ GetWindowBorderStyle(Window) {
 NudgeWindow(Window) {
 	; Temporarily disable the window delay to speed up the
 	; nudge operation and avoid flickering.
-	O_WinDelay := A_WinDelay
+	SavedWinDelay := A_WinDelay
 	SetWinDelay, 0
 
 	WinGetPos X, Y, Width, Height, ahk_id %Window%
 	WinMove, ahk_id %Window%,,,, Width, Height - 1
 	WinMove, ahk_id %Window%,,,, Width, Height
 
-	; Restore the WinDelay
-	SetWinDelay, %O_WinDelay%
+	; Restore the original WinDelay.
+	SetWinDelay, %SavedWinDelay%
 }
 
 MoveMouse(Units, Times := 1, Interval := 1) {

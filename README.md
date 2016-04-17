@@ -23,10 +23,9 @@ My AutoHotkey script, rewritten for Windows 10.
 	Win-W:             Close active-window
 	Win-A:             Toggle active-window always-on-top
 	Win-S:             Set window size
-	Win-P:             Set window position
 
-	Shift-Ctrl-C:      Copy text to secondary clipboard
-	Shift-Ctrl-V:      Paste text to secondary clipboard
+	Shift-Ctrl-C:      Copy text to AHK clipboard
+	Shift-Ctrl-V:      Paste text to AHK clipboard
 
 	Pause-N:           FPS mouse sensitivity check slow
 	Pause-M:           FPS mouse sensitivity check fast
