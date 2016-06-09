@@ -381,7 +381,7 @@ PrintHelp() {
 
 	Text := Text . "`n"
 	Text := Text . "`n" . "Shift-Ctrl + C:`t" . " Copy text to AHK clipboard"
-	Text := Text . "`n" . "Shift-Ctrl + V:`t" . " Paste text to AHK clipboard"
+	Text := Text . "`n" . "Shift-Ctrl + V:`t" . " Paste text from AHK clipboard"
 
 	Text := Text . "`n"
 	Text := Text . "`n" . "Pause + N:`t" . " FPS mouse sensitivity check slow"

@@ -26,7 +26,7 @@ Win + A:            Toggle active-window always-on-top
 Win + S:            Set window size
 
 Shift-Ctrl + C:     Copy text to AHK clipboard
-Shift-Ctrl + V:     Paste text to AHK clipboard
+Shift-Ctrl + V:     Paste text from AHK clipboard
 
 Pause + N:          FPS mouse sensitivity check slow
 Pause + M:          FPS mouse sensitivity check fast
