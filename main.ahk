@@ -38,7 +38,7 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 
 #w:: CloseWindow(GetWindow())
 #a:: ToggleWindowAlwaysOnTop(GetWindow())
-#s:: InteractiveWindowResize(GetWindow())
+#s:: InteractiveWindowMove(GetWindow())
 
 +#z:: SetWindowRegion(GetWindow())
 +#x:: ClearWindowRegion(GetWindow())
@@ -169,11 +169,18 @@ DragResizeWindow(ResizeFrom := "") {
 	}
 }
 
-InteractiveWindowResize(Window) {
-	InputBox, W, Window Width, Enter window width:,, 200, 125
-	InputBox, H, Window Height, Enter window height:,, 200, 125
+InteractiveWindowMove(Window) {
+	InputBox, Size, Window Size, Enter window size (W/H),, 200, 125
+	SizeSplit := StrSplit(Size, [",", "/", "x", A_Space])
+	W := SizeSplit[1]
+	H := SizeSplit[2]
 
-	WinMove, ahk_id %Window%,,,, W, H
+	InputBox, Pos, Window Position, Enter window position (X/Y),, 200, 125
+	PosSplit := StrSplit(Pos, [",", "/", "x", A_Space])
+	X := PosSplit[1]
+	Y := PosSplit[2]
+
+	WinMove, ahk_id %Window%,, X, Y, W, H
 }
 
 ; --------------------------------------------------------------------
@@ -377,7 +384,7 @@ PrintHelp() {
 	Text := Text . "`n"
 	Text := Text . "`n" . "Win + W:`t`t" . " Close active-window"
 	Text := Text . "`n" . "Win + A:`t`t" . " Toggle active-window always-on-top"
-	Text := Text . "`n" . "Win + S:`t`t" . " Set window size"
+	Text := Text . "`n" . "Win + S:`t`t" . " Set window size and position"
 
 	Text := Text . "`n"
 	Text := Text . "`n" . "Shift-Ctrl + C:`t" . " Copy text to AHK clipboard"

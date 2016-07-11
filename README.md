@@ -2,7 +2,7 @@
 My AutoHotkey script, rewritten for Windows 10.
 
 ## Keybindings
-```txt
+```text
 Pause + Esc:        Turn AHK-Script on/off
 Pause + H:          Print AHK-Script help
 Pause + R:          Reload AHK-Script
@@ -23,7 +23,7 @@ Shift-Win + X:      Clear window region on active-window
 
 Win + W:            Close active-window
 Win + A:            Toggle active-window always-on-top
-Win + S:            Set window size
+Win + S:            Set window size and position
 
 Shift-Ctrl + C:     Copy text to AHK clipboard
 Shift-Ctrl + V:     Paste text from AHK clipboard
