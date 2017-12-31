@@ -51,8 +51,8 @@ Pause & n:: MoveMouse(5899)
 Pause & m:: MoveMouse(347, 17)
 
 #if (G_CapsLockRebind)
-	*CapsLock:: Send {Blind}{Shift DownTemp}{Ctrl DownTemp}{Alt DownTemp}
-	*CapsLock up:: Send {Blind}{Shift Up}{Ctrl Up}{Alt Up}
+	*CapsLock:: SendInput {Blind}{Shift DownTemp}{Ctrl DownTemp}{Alt DownTemp}
+	*CapsLock up:: SendInput {Blind}{Shift Up}{Ctrl Up}{Alt Up}
 #if
 
 ; --------------------------------------------------------------------
