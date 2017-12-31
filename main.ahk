@@ -63,6 +63,20 @@ Pause & m:: MoveMouse(347, 17)
 #if
 
 ; --------------------------------------------------------------------
+; Temporary Hacks
+
+; Thorttle mouse back button because of faulty hardware causing double clicks.
+XButton1::
+	if (A_TimeSincePriorHotkey < 100) {
+		Return
+	}
+
+	Send {XButton1 Down}
+	KeyWait XButton1
+	Send {XButton1 Up}
+Return
+
+; --------------------------------------------------------------------
 ; Window Resizing/Positioning Functions
 
 SmartDragWindow() {
