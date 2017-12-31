@@ -59,7 +59,7 @@ Pause & m:: MoveMouse(347, 17)
 
 #if (G_CapsLockRebind)
 	*CapsLock:: SendInput {Blind}{Shift DownTemp}{Ctrl DownTemp}{Alt DownTemp}
-	*CapsLock up:: SendInput {Blind}{Shift Up}{Ctrl Up}{Alt Up}
+	*CapsLock Up:: SendInput {Blind}{Shift Up}{Ctrl Up}{Alt Up}
 #if
 
 ; --------------------------------------------------------------------
@@ -141,7 +141,7 @@ DragResizeWindow(ResizeFrom := "") {
 	; Abort if the window is maximized.
 	WinGet, WinStatus, MinMax, ahk_id %MouseWin%
 	if (WinStatus != 0) {
-		return
+		Return
 	}
 
 	While GetKeyState("RButton", "P") {
@@ -269,7 +269,7 @@ SetWindowBorders(Window, Enable := true, KeepInnerSize := false) {
 	; Changing WS_SIZEBOX on a maximized window can cause unpredictable behavior.
 	WinGet, WinStatus, MinMax, ahk_id %Window%
 	if (WinStatus != 0) {
-		return
+		Return
 	}
 
 	if (Enable) {
@@ -447,10 +447,10 @@ GetWindow(Window := "") {
 	if ((PName == "Explorer.EXE")
 	   or (PName == "ShellExperienceHost.exe")
 	   or (PName == "SearchUI.exe")) {
-		return ""
+		Return ""
 	}
 
-	return Window
+	Return Window
 }
 
 ; Returns the window border style as a string.
