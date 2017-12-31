@@ -46,6 +46,13 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 +^c:: CopyToClipboard()
 +^v:: PasteFromClipboard()
 
+^+!LButton::
+	While GetKeyState("LButton", "P") {
+		Click
+		Sleep 10
+	}
+Return
+
 ; TODO: Resync these values with my current setup.
 Pause & n:: MoveMouse(5899)
 Pause & m:: MoveMouse(347, 17)
@@ -360,39 +367,42 @@ PasteFromClipboard() {
 ; Utility Functions
 
 PrintHelp() {
-	Text := "Pause + Esc:`t" . "Turn AHK-Script on/off"
-	Text := Text . "`n" . "Pause + H:`t" . " Print AHK-Script help"
+	Text := "Pause + Esc:`t`t" . "Turn AHK-Script on/off"
+	Text := Text . "`n" . "Pause + H:`t`t" . " Print AHK-Script help"
 	Text := Text . "`n" . "Pause + R:`t`t" . " Reload AHK-Script"
 	Text := Text . "`n" . "Pause + I:`t`t" . " Print active-window information"
-	Text := Text . "`n" . "Pause + Caps:`t" . " Toggle caps lock mode"
+	Text := Text . "`n" . "Pause + Caps:`t`t" . " Toggle caps lock mode"
 
 	Text := Text . "`n"
 	Text := Text . "`n" . "MMouse + LMouse:`t" . " Drag mouse-window"
 	Text := Text . "`n" . "MMouse + RMouse:`t" . " Drag-resize mouse-window"
 
 	Text := Text . "`n"
-	Text := Text . "`n" . "Win + MMouse:`t" . " Toggle mouse-window always-on-top"
-	Text := Text . "`n" . "Win + LMouse:`t" . " Toggle mouse-window caption"
-	Text := Text . "`n" . "Win + RMouse:`t" . " Toggle mouse-window borders"
+	Text := Text . "`n" . "Win + MMouse:`t`t" . " Toggle mouse-window always-on-top"
+	Text := Text . "`n" . "Win + LMouse:`t`t" . " Toggle mouse-window caption"
+	Text := Text . "`n" . "Win + RMouse:`t`t" . " Toggle mouse-window borders"
 	Text := Text . "`n" . "Shift-Win + LMouse:`t" . " Toggle mouse-window caption (keep inner size)"
 	Text := Text . "`n" . "Shift-Win + RMouse:`t" . " Toggle mouse-window borders (keep inner size)"
 
 	Text := Text . "`n"
-	Text := Text . "`n" . "Shift-Win + Z:`t" . " Set window region on active-window"
-	Text := Text . "`n" . "Shift-Win + X:`t" . " Clear window region on active-window"
+	Text := Text . "`n" . "Shift-Win + Z:`t`t" . " Set window region on active-window"
+	Text := Text . "`n" . "Shift-Win + X:`t`t" . " Clear window region on active-window"
 
 	Text := Text . "`n"
 	Text := Text . "`n" . "Win + W:`t`t" . " Close active-window"
-	Text := Text . "`n" . "Win + A:`t`t" . " Toggle active-window always-on-top"
-	Text := Text . "`n" . "Win + S:`t`t" . " Set window size and position"
+	Text := Text . "`n" . "Win + A:`t`t`t" . " Toggle active-window always-on-top"
+	Text := Text . "`n" . "Win + S:`t`t`t" . " Set window size and position"
 
 	Text := Text . "`n"
-	Text := Text . "`n" . "Shift-Ctrl + C:`t" . " Copy text to AHK clipboard"
-	Text := Text . "`n" . "Shift-Ctrl + V:`t" . " Paste text from AHK clipboard"
+	Text := Text . "`n" . "Shift-Ctrl + C:`t`t" . " Copy text to AHK clipboard"
+	Text := Text . "`n" . "Shift-Ctrl + V:`t`t" . " Paste text from AHK clipboard"
 
 	Text := Text . "`n"
-	Text := Text . "`n" . "Pause + N:`t" . " FPS mouse sensitivity check slow"
-	Text := Text . "`n" . "Pause + M:`t" . " FPS mouse sensitivity check fast"
+	Text := Text . "`n" . "Shift-Ctrl-Alt + LMouse:`t" . " Spam click left mouse button"
+
+	Text := Text . "`n"
+	Text := Text . "`n" . "Pause + N:`t`t" . " FPS mouse sensitivity check slow"
+	Text := Text . "`n" . "Pause + M:`t`t" . " FPS mouse sensitivity check fast"
 
 	MsgBox, 0, AHK-Script v%G_Version% - Help, %Text%
 }
