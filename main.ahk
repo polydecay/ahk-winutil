@@ -47,9 +47,6 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 +^c:: CopyToClipboard()
 +^v:: PasteFromClipboard()
 
-; voidtools Everything binding.
-#Space::+#f
-
 ^+!LButton::
 	While GetKeyState("LButton", "P") {
 		Click
@@ -64,6 +61,11 @@ Pause & m:: MoveMouse(347, 17)
 #if (G_CapsLockRebind)
 	*CapsLock:: SendInput {Blind}{Shift Down}{Ctrl Down}{Alt Down}
 	*CapsLock Up:: SendInput {Blind}{Shift Up}{Ctrl Up}{Alt Up}
+#if
+
+#if GetKeyState("CapsLock", "P")
+	; voidtools Everything binding.
+	f:: SendInput {blind}{Shift Up}f{Shift Down}
 #if
 
 ; --------------------------------------------------------------------
