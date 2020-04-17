@@ -107,8 +107,20 @@ DragWindow(Constraint := "") {
 		return
 	}
 
+	; Sends middle mouse button click to cancel any action that was started
+	; by the initial click. (Useful in chrome and firefox.)
+	GetKeyState, MButtonState, MButton
+	if (MButtonState = "D") {
+		Send {MButton down}
+		Send {MButton up}
+	}
+
 	While GetKeyState("LButton", "P") {
 		MouseGetPos, MouseX, MouseY
+		if ((MouseX == MouseLastX) and (MouseY == MouseLastY)) {
+			Continue
+		}
+
 		WinGetPos, X, Y,,, ahk_id %MouseWin%
 
 		if (not Constraint) {
@@ -159,8 +171,20 @@ DragResizeWindow(ResizeFrom := "") {
 		Return
 	}
 
+	; Sends middle mouse button click to cancel any action that was started
+	; by the initial click. (Useful in chrome and firefox.)
+	GetKeyState, MButtonState, MButton
+	if (MButtonState = "D") {
+		Send {MButton down}
+		Send {MButton up}
+	}
+
 	While GetKeyState("RButton", "P") {
 		MouseGetPos, MouseX, MouseY
+		if ((MouseX == MouseLastX) and (MouseY == MouseLastY)) {
+			Continue
+		}
+
 		WinGetPos, X, Y, W, H, ahk_id %MouseWin%
 
 		if ((not ResizeFrom) or (ResizeFrom == "BottomRight")) {
