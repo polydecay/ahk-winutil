@@ -50,7 +50,7 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 ^+!LButton::
 	While GetKeyState("LButton", "P") {
 		Click
-		Sleep 10
+		Sleep 2
 	}
 Return
 
