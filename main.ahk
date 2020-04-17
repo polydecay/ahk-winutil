@@ -39,6 +39,7 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 #w:: CloseWindow(GetWindow())
 #a:: ToggleWindowAlwaysOnTop(GetWindow())
 #s:: InteractiveWindowMove(GetWindow())
+#t:: InteractiveWindowTransparency(GetWindow())
 
 +#z:: SetWindowRegion(GetWindow())
 +#x:: ClearWindowRegion(GetWindow())
@@ -202,6 +203,21 @@ InteractiveWindowMove(Window) {
 	Y := PosSplit[2]
 
 	WinMove, ahk_id %Window%,, X, Y, W, H
+}
+
+InteractiveWindowTransparency(Window) {
+	InputBox, Transparency, Window Transparency, Enter transparency (0-100),, 200, 125
+	if (ErrorLevel) {
+		Return
+	}
+
+	if (!RegExMatch(Transparency, "\d+|\d+\.\d+")) {
+		MsgBox Transparency has to be a number between "0" and "100".
+		Return
+	}
+
+	Value := (Transparency / 100) * 255
+	WinSet, Transparent, %Value%, ahk_id %Window%
 }
 
 ; --------------------------------------------------------------------
@@ -406,6 +422,7 @@ PrintHelp() {
 	Text := Text . "`n" . "Win + W:`t`t" . " Close active-window"
 	Text := Text . "`n" . "Win + A:`t`t`t" . " Toggle active-window always-on-top"
 	Text := Text . "`n" . "Win + S:`t`t`t" . " Set window size and position"
+	Text := Text . "`n" . "Win + T:`t`t`t" . " Set window transparency"
 
 	Text := Text . "`n"
 	Text := Text . "`n" . "Shift-Ctrl + C:`t`t" . " Copy text to AHK clipboard"
