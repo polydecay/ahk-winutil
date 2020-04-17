@@ -219,12 +219,27 @@ DragResizeWindow(ResizeFrom := "") {
 }
 
 InteractiveWindowMove(Window) {
-	InputBox, Size, Window Size, Enter window size (W/H),, 200, 125
-	SizeSplit := StrSplit(Size, [",", "/", "x", A_Space])
-	W := SizeSplit[1]
-	H := SizeSplit[2]
+	InputBox, Size, Window Size, Enter window size (W/H) or (*Mult),, 235, 125
+	If (ErrorLevel) {
+		Return
+	}
+
+	if (RegExMatch(Size, "^(\*\d+|\*\d*\.\d+)$")) {
+		WinGetPos, X, Y, W, H, ahk_id %Window%
+		Mult := StrSplit(Size, ["*"])[2]
+		W := W * Mult
+		H := H * Mult
+	} else {
+		SizeSplit := StrSplit(Size, [",", "/", "x", A_Space])
+		W := SizeSplit[1]
+		H := SizeSplit[2]
+	}
 
 	InputBox, Pos, Window Position, Enter window position (X/Y),, 200, 125
+	if (ErrorLevel) {
+		Return
+	}
+
 	PosSplit := StrSplit(Pos, [",", "/", "x", A_Space])
 	X := PosSplit[1]
 	Y := PosSplit[2]
