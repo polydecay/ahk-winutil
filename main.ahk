@@ -59,7 +59,7 @@ Pause & n:: MoveMouse(5899)
 Pause & m:: MoveMouse(347, 17)
 
 #if (G_CapsLockRebind)
-	*CapsLock:: SendInput {Blind}{Shift DownTemp}{Ctrl DownTemp}{Alt DownTemp}
+	*CapsLock:: SendInput {Blind}{Shift Down}{Ctrl Down}{Alt Down}
 	*CapsLock Up:: SendInput {Blind}{Shift Up}{Ctrl Up}{Alt Up}
 #if
 
@@ -68,7 +68,7 @@ Pause & m:: MoveMouse(347, 17)
 
 ; Thorttle mouse back button because of faulty hardware causing double clicks.
 XButton1::
-	if (A_TimeSincePriorHotkey < 100) {
+	if (A_TimeSincePriorHotkey < 150) {
 		Return
 	}
 
