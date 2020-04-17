@@ -47,6 +47,9 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 +^c:: CopyToClipboard()
 +^v:: PasteFromClipboard()
 
+; voidtools Everything binding.
+#Space::+#f
+
 ^+!LButton::
 	While GetKeyState("LButton", "P") {
 		Click
