@@ -29,10 +29,7 @@ Shift-Ctrl + C:           Copy text to AHK clipboard
 Shift-Ctrl + V:           Paste text from AHK clipboard
 
 Shift-Ctrl-Alt + LMouse:  Spam click left mouse button
-
-Pause + N:                FPS mouse sensitivity check slow
-Pause + M:                FPS mouse sensitivity check fast
 ```
 
 ## License
-Licensed under [The MIT License (MIT)](https://opensource.org/licenses/MIT) - Copyright &copy; 2016 Kim Simonsen.
+Licensed under [The MIT License (MIT)](https://opensource.org/licenses/MIT) - Copyright &copy; 2020 Kim Simonsen.

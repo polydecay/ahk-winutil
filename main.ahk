@@ -54,10 +54,6 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 	}
 Return
 
-; TODO: Resync these values with my current setup.
-Pause & n:: MoveMouse(5899)
-Pause & m:: MoveMouse(347, 17)
-
 #if (G_CapsLockRebind)
 	*CapsLock:: SendInput {Blind}{Shift Down}{Ctrl Down}{Alt Down}
 	*CapsLock Up:: SendInput {Blind}{Shift Up}{Ctrl Up}{Alt Up}
@@ -474,10 +470,6 @@ PrintHelp() {
 
 	Text := Text . "`n"
 	Text := Text . "`n" . "Shift-Ctrl-Alt + LMouse:`t" . " Spam click left mouse button"
-
-	Text := Text . "`n"
-	Text := Text . "`n" . "Pause + N:`t`t" . " FPS mouse sensitivity check slow"
-	Text := Text . "`n" . "Pause + M:`t`t" . " FPS mouse sensitivity check fast"
 
 	MsgBox, 0, AHK-Script v%G_Version% - Help, %Text%
 }
