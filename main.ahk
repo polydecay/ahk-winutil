@@ -86,6 +86,10 @@ SmartDragWindow() {
 	MouseGetPos, MouseX, MouseY, MouseWin
 	WinGetPos, X, Y, W, H, ahk_id %MouseWin%
 
+	if (IsProtectedWindow(MouseWin)) {
+		Return
+	}
+
 	EdgeSize := 16
 	if ((MouseX - X < EdgeSize) or (X + W - MouseX < EdgeSize)) {
 		DragWindow("X")
@@ -101,6 +105,10 @@ DragWindow(Constraint := "") {
 	SetWinDelay, 0 ; Reduce the WinDelay to make the dragging smoother.
 
 	MouseGetPos, MouseLastX, MouseLastY, MouseWin
+
+	if (IsProtectedWindow(MouseWin)) {
+		Return
+	}
 
 	; Abort if the window is maximized.
 	WinGet, WinStatus, MinMax, ahk_id %MouseWin%
@@ -142,6 +150,10 @@ SmartDragResizeWindow() {
 	MouseGetPos, MouseX, MouseY, MouseWin
 	WinGetPos, X, Y, W, H, ahk_id %MouseWin%
 
+	if (IsProtectedWindow(MouseWin)) {
+		Return
+	}
+
 	EdgeSize := 16
 	Constraint := ""
 
@@ -165,6 +177,10 @@ DragResizeWindow(ResizeFrom := "") {
 	SetWinDelay, 0 ; Reduce the WinDelay to make the dragging smoother.
 
 	MouseGetPos, MouseLastX, MouseLastY, MouseWin
+
+	if (IsProtectedWindow(MouseWin)) {
+		Return
+	}
 
 	; Abort if the window is maximized.
 	WinGet, WinStatus, MinMax, ahk_id %MouseWin%
@@ -217,6 +233,10 @@ DragResizeWindow(ResizeFrom := "") {
 }
 
 InteractiveWindowMove(Window) {
+	if (Window == "") {
+		Return
+	}
+
 	InputBox, Size, Window Size, Enter window size (W/H) or (*Mult),, 235, 125
 	If (ErrorLevel) {
 		Return
@@ -246,6 +266,10 @@ InteractiveWindowMove(Window) {
 }
 
 InteractiveWindowTransparency(Window) {
+	if (Window == "") {
+		Return
+	}
+
 	InputBox, Transparency, Window Transparency, Enter transparency (0-100),, 200, 125
 	if (ErrorLevel) {
 		Return
@@ -264,6 +288,10 @@ InteractiveWindowTransparency(Window) {
 ; Window State Functions
 
 ToggleWindowAlwaysOnTop(Window) {
+	if (Window == "") {
+		Return
+	}
+
 	WinGet, ExStyle, ExStyle, ahk_id %Window%
 	if (ExStyle & 0x8) {
 		SetWindowAlwaysOnTop(Window, "Off")
@@ -273,6 +301,10 @@ ToggleWindowAlwaysOnTop(Window) {
 }
 
 SetWindowAlwaysOnTop(Window, State := "On") {
+	if (Window == "") {
+		Return
+	}
+
 	WinSet, AlwaysOnTop, %State%, ahk_id %Window%
 
 	; Move the window to the bottom when disabling AlwaysOnTop to make sure it's
@@ -286,6 +318,10 @@ SetWindowAlwaysOnTop(Window, State := "On") {
 }
 
 ToggleWindowCaption(Window, KeepInnerSize := false) {
+	if (Window == "") {
+		Return
+	}
+
 	BorderStyle := GetWindowBorderStyle(Window)
 	if (BorderStyle == "NoCaption") {
 		SetWindowCaption(Window, true, KeepInnerSize)
@@ -297,6 +333,10 @@ ToggleWindowCaption(Window, KeepInnerSize := false) {
 }
 
 SetWindowCaption(Window, Enable := true, KeepInnerSize := false) {
+	if (Window == "") {
+		Return
+	}
+
 	; Set the WS_DLGFRAME instead of WS_CAPTION because WS_CAPTION will mess with the WS_BORDER
 	; style. WS_CAPTION will also resize the window by 1 pixel in all diractions.
 	if (Enable) {
@@ -324,6 +364,10 @@ SetWindowCaption(Window, Enable := true, KeepInnerSize := false) {
 }
 
 ToggleWindowBorders(Window, KeepInnerSize := false) {
+	if (Window == "") {
+		Return
+	}
+
 	BorderStyle := GetWindowBorderStyle(Window)
 	if (BorderStyle == "NoCaption") {
 		SetWindowCaption(Window, true, KeepInnerSize)
@@ -336,6 +380,10 @@ ToggleWindowBorders(Window, KeepInnerSize := false) {
 }
 
 SetWindowBorders(Window, Enable := true, KeepInnerSize := false) {
+	if (Window == "") {
+		Return
+	}
+
 	; Changing WS_SIZEBOX on a maximized window can cause unpredictable behavior.
 	WinGet, WinStatus, MinMax, ahk_id %Window%
 	if (WinStatus != 0) {
@@ -366,6 +414,10 @@ SetWindowBorders(Window, Enable := true, KeepInnerSize := false) {
 }
 
 SetWindowRegion(Window) {
+	if (Window == "") {
+		Return
+	}
+
 	; The window region doesn't hide the borders so make sure they are
 	; disabled before starting.
 	BorderStyle := GetWindowBorderStyle(Window)
@@ -397,6 +449,10 @@ SetWindowRegion(Window) {
 }
 
 ClearWindowRegion(Window) {
+	if (Window == "") {
+		Return
+	}
+
 	; Reset the borders to work more consistently with SetWindowRegion.
 	BorderStyle := GetWindowBorderStyle(Window)
 	if (BorderStyle == "NoBorders") {
@@ -475,6 +531,10 @@ PrintHelp() {
 }
 
 PrintWindowInfo(Window) {
+	if (Window == "") {
+		Return
+	}
+
 	WinGet, Process, ProcessName, ahk_id %Window%
 	WinGetTitle, Title, ahk_id %Window%
 	WinGetClass, Class, ahk_id %Window%
@@ -494,6 +554,10 @@ PrintWindowInfo(Window) {
 }
 
 CloseWindow(Window) {
+	if (Window == "") {
+		Return
+	}
+
 	WinClose, ahk_id %Window%
 }
 
@@ -509,11 +573,7 @@ GetWindow(Window := "") {
 		MouseGetPos,,, Window
 	}
 
-	; Filter out Windows core UI elements to prevent accidental modifications.
-	WinGet, PName, ProcessName, ahk_id %Window%
-	if ((PName == "Explorer.EXE")
-	   or (PName == "ShellExperienceHost.exe")
-	   or (PName == "SearchUI.exe")) {
+	if (IsProtectedWindow(Window)) {
 		Return ""
 	}
 
@@ -522,6 +582,10 @@ GetWindow(Window := "") {
 
 ; Returns the window border style as a string.
 GetWindowBorderStyle(Window) {
+	if (Window == "") {
+		Return
+	}
+
 	WinGet, WinStyle, Style, ahk_id %Window%
 	if (not WinStyle & 0xC00000) and (not WinStyle & 0x40000) {
 		Return "NoBorders"
@@ -532,9 +596,33 @@ GetWindowBorderStyle(Window) {
 	}
 }
 
+; Protected Windows are core Windows UI elements that should probably be moved, resized, etc.
+IsProtectedWindow(Window) {
+	WinGet, PName, ProcessName, ahk_id %Window%
+	StringLower, PName, PName
+
+	if (PName == "explorer.exe") {
+		WinGetTitle, Title, ahk_id %Window%
+		if (Title == "") {
+			Return True
+		}
+	} else if ((PName == "startmenuexperiencehost.exe")
+		or (PName == "searchapp.exe")
+		or (PName == "searchui.exe")
+		or (PName == "shellexperiencehost.exe")) {
+		Return True
+	}
+
+	Return False
+}
+
 ; Nudges the window size to trigger a resize event. (This is required for
 ; some window operations to take effect.)
 NudgeWindow(Window) {
+	if (Window == "") {
+		Return
+	}
+
 	; Temporarily disable the window delay to speed up the
 	; nudge operation and avoid flickering.
 	SavedWinDelay := A_WinDelay
