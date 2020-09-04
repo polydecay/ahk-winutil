@@ -507,7 +507,7 @@ PasteFromClipboard() {
 ; Utility Functions
 
 PrintHelp() {
-	Text := "Pause + Esc:`t`t" . "Turn AHK-Script on/off"
+	Text := "Pause + Esc:`t`t" . " Turn AHK-Script on/off"
 	Text := Text . "`n" . "Pause + H:`t`t" . " Print AHK-Script help"
 	Text := Text . "`n" . "Pause + R:`t`t" . " Reload AHK-Script"
 	Text := Text . "`n" . "Pause + I:`t`t" . " Print active-window information"
