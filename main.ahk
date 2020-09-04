@@ -40,6 +40,7 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 #a:: ToggleWindowAlwaysOnTop(GetWindow())
 #s:: InteractiveWindowMove(GetWindow())
 #t:: InteractiveWindowTransparency(GetWindow())
+#c:: CenterWindow(GetWindow(), GetMouseMonitor())
 
 +#z:: SetWindowRegion(GetWindow())
 +#x:: ClearWindowRegion(GetWindow())
@@ -284,6 +285,19 @@ InteractiveWindowTransparency(Window) {
 	WinSet, Transparent, %Value%, ahk_id %Window%
 }
 
+CenterWindow(Window, MonitorIndex) {
+	WinGetPos, WinX, WinY, WinWidth, WinHeight, ahk_id %Window%
+	SysGet, Mon, Monitor, %MonitorIndex%
+
+	MonWidth := MonRight - MonLeft
+	MonHeight := MonBottom - MonTop
+
+	X := (MonWidth / 2) - (WinWidth / 2) + MonLeft
+	Y := (MonHeight / 2) - (WinHeight / 2) + MonTop
+
+	WinMove, ahk_id %Window%,, X, Y
+}
+
 ; --------------------------------------------------------------------
 ; Window State Functions
 
@@ -519,6 +533,7 @@ PrintHelp() {
 	Text := Text . "`n" . "Win + A:`t`t`t" . " Toggle active-window always-on-top"
 	Text := Text . "`n" . "Win + S:`t`t`t" . " Set window size and position"
 	Text := Text . "`n" . "Win + T:`t`t`t" . " Set window transparency"
+	Text := Text . "`n" . "Win + C:`t`t`t" . " Center active-window on mouse monitor"
 
 	Text := Text . "`n"
 	Text := Text . "`n" . "Shift-Ctrl + C:`t`t" . " Copy text to AHK clipboard"
@@ -641,5 +656,18 @@ MoveMouse(Units, Times := 1, Interval := 1) {
 		DllCall("mouse_event", uint, 1, int, Units, int, 0)
 		Times--
 		Sleep Interval
+	}
+}
+
+GetMouseMonitor() {
+	CoordMode, Mouse, Screen
+	MouseGetPos, MouseX, MouseY
+	SysGet MonCount, MonitorCount
+
+	Loop %MonCount% {
+		SysGet Mon, Monitor, %a_index%
+		if (MouseX >= MonLeft and MouseX <= MonRight and MouseY >= MonTop and MouseY <= MonBottom) {
+			return %a_index%
+		}
 	}
 }
