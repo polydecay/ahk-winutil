@@ -13,7 +13,6 @@ SetWinDelay, 25
 ; GLobal variables.
 global G_Version := "0.0.0"
 global G_CapsLockRebind := true
-global G_Clip := ""
 
 ; --------------------------------------------------------------------
 ; Keybindings
@@ -44,9 +43,6 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 
 +#z:: SetWindowRegion(GetWindow())
 +#x:: ClearWindowRegion(GetWindow())
-
-+^c:: CopyToClipboard()
-+^v:: PasteFromClipboard()
 
 ^+!LButton::
 	While GetKeyState("LButton", "P") {
@@ -478,32 +474,6 @@ ClearWindowRegion(Window) {
 }
 
 ; --------------------------------------------------------------------
-; CLipboard Functions
-
-CopyToClipboard() {
-	; Save the original clipboard content.
-	SavedClip := ClipboardAll
-
-	Send ^c
-	ClipWait, 1
-	G_Clip := Clipboard
-
-	; Restore the original clipboard.
-	Clipboard := SavedClip
-}
-
-PasteFromClipboard() {
-	; Save the original clipboard content.
-	SavedClip := ClipboardAll
-
-	Clipboard := G_Clip
-	Send ^v
-
-	; Restore the original clipboard.
-	Clipboard := SavedClip
-}
-
-; --------------------------------------------------------------------
 ; Utility Functions
 
 PrintHelp() {
@@ -534,10 +504,6 @@ PrintHelp() {
 	Text := Text . "`n" . "Win + S:`t`t`t" . " Set window size and position"
 	Text := Text . "`n" . "Win + T:`t`t`t" . " Set window transparency"
 	Text := Text . "`n" . "Win + C:`t`t`t" . " Center active-window on mouse monitor"
-
-	Text := Text . "`n"
-	Text := Text . "`n" . "Shift-Ctrl + C:`t`t" . " Copy text to AHK clipboard"
-	Text := Text . "`n" . "Shift-Ctrl + V:`t`t" . " Paste text from AHK clipboard"
 
 	Text := Text . "`n"
 	Text := Text . "`n" . "Shift-Ctrl-Alt + LMouse:`t" . " Spam click left mouse button"
