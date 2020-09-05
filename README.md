@@ -24,9 +24,8 @@ Shift-Win + X:            Clear window region on active-window
 Win + W:                  Close active-window
 Win + A:                  Toggle active-window always-on-top
 Win + S:                  Set window size and position
-
-Shift-Ctrl + C:           Copy text to AHK clipboard
-Shift-Ctrl + V:           Paste text from AHK clipboard
+Win + T:                  Set window transparency
+Win + C:                  Center active-window on mouse monitor
 
 Shift-Ctrl-Alt + LMouse:  Spam click left mouse button
 ```
