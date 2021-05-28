@@ -491,9 +491,9 @@ ClearWindowRegion(Window) {
 ; Utility Functions
 
 PrintHelp() {
-	Text := "Pause + Esc:`t`t" . " Toggle AHK-Script on/off"
-	Text := Text . "`n" . "Pause + H:`t`t" . " Print AHK-Script help"
-	Text := Text . "`n" . "Pause + R:`t`t" . " Reload AHK-Script"
+	Text := "Pause + Esc:`t`t" . " Toggle AHK-WinUtil on/off"
+	Text := Text . "`n" . "Pause + H:`t`t" . " Print AHK-WinUtil help"
+	Text := Text . "`n" . "Pause + R:`t`t" . " Reload AHK-WinUtil"
 	Text := Text . "`n" . "Pause + I:`t`t" . " Print active-window information"
 	Text := Text . "`n" . "Pause + Caps:`t`t" . " Toggle caps lock mode"
 
@@ -526,7 +526,7 @@ PrintHelp() {
 	Gui, Font, s10, Segoe UI
 	Gui, Add, Text,, %Text%
 	Gui, Add, Text, w450 +Center cGray, `nMade by Kim Simonsen (2021)
-	Gui, Show,, AHK-Script v%G_Version% - Help
+	Gui, Show,, AHK-WinUtil v%G_Version% - Help
 
 	; Close the window when you hit Escape.
 	return

@@ -1,11 +1,11 @@
-# AHK-Script
+# AHK-WinUtil
 My AutoHotkey script made for Windows 10.
 
 ## Keybindings
 ```text
-Pause + Esc:              Toggle AHK-Script on/off
-Pause + H:                Print AHK-Script help
-Pause + R:                Reload AHK-Script
+Pause + Esc:              Toggle AHK-WinUtil on/off
+Pause + H:                Print AHK-WinUtil help
+Pause + R:                Reload AHK-WinUtil
 Pause + I:                Print active-window information
 Pause + Caps:             Toggle caps lock mode
 
