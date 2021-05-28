@@ -608,7 +608,7 @@ IsProtectedWindow(Window) {
 
 	if (PName == "explorer.exe") {
 		WinGetTitle, Title, ahk_id %Window%
-		if (Title == "") {
+		if ((Title == "") or (Title == "Task View")) {
 			Return True
 		}
 	} else if ((PName == "startmenuexperiencehost.exe")
