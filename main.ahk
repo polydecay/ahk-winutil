@@ -40,6 +40,7 @@ Pause & CapsLock:: G_CapsLockRebind := !G_CapsLockRebind
 #s:: InteractiveWindowMove(GetWindow())
 #t:: InteractiveWindowTransparency(GetWindow())
 #c:: CenterWindow(GetWindow(), GetMouseMonitor())
+#f:: FullscreenWindow(GetWindow(), GetMouseMonitor())
 
 +#z:: SetWindowRegion(GetWindow())
 +#x:: ClearWindowRegion(GetWindow())
@@ -294,6 +295,19 @@ CenterWindow(Window, MonitorIndex) {
 	WinMove, ahk_id %Window%,, X, Y
 }
 
+FullscreenWindow(Window, MonitorIndex) {
+	WinGetPos, WinX, WinY, WinWidth, WinHeight, ahk_id %Window%
+	SysGet, Mon, Monitor, %MonitorIndex%
+
+	MonWidth := MonRight - MonLeft
+	MonHeight := MonBottom - MonTop
+
+	X := (MonWidth / 2) - (WinWidth / 2) + MonLeft
+	Y := (MonHeight / 2) - (WinHeight / 2) + MonTop
+
+	WinMove, ahk_id %Window%,, MonLeft, MonTop, MonWidth, MonHeight
+}
+
 ; --------------------------------------------------------------------
 ; Window State Functions
 
@@ -477,7 +491,7 @@ ClearWindowRegion(Window) {
 ; Utility Functions
 
 PrintHelp() {
-	Text := "Pause + Esc:`t`t" . " Turn AHK-Script on/off"
+	Text := "Pause + Esc:`t`t" . " Toggle AHK-Script on/off"
 	Text := Text . "`n" . "Pause + H:`t`t" . " Print AHK-Script help"
 	Text := Text . "`n" . "Pause + R:`t`t" . " Reload AHK-Script"
 	Text := Text . "`n" . "Pause + I:`t`t" . " Print active-window information"
@@ -491,24 +505,34 @@ PrintHelp() {
 	Text := Text . "`n" . "Win + MMouse:`t`t" . " Toggle mouse-window always-on-top"
 	Text := Text . "`n" . "Win + LMouse:`t`t" . " Toggle mouse-window caption"
 	Text := Text . "`n" . "Win + RMouse:`t`t" . " Toggle mouse-window borders"
-	Text := Text . "`n" . "Shift-Win + LMouse:`t" . " Toggle mouse-window caption (keep inner size)"
-	Text := Text . "`n" . "Shift-Win + RMouse:`t" . " Toggle mouse-window borders (keep inner size)"
+	Text := Text . "`n" . "Shift-Win + LMouse:`t" . " Toggle mouse-window caption (inner size)"
+	Text := Text . "`n" . "Shift-Win + RMouse:`t" . " Toggle mouse-window borders (inner size)"
 
 	Text := Text . "`n"
 	Text := Text . "`n" . "Shift-Win + Z:`t`t" . " Set window region on active-window"
 	Text := Text . "`n" . "Shift-Win + X:`t`t" . " Clear window region on active-window"
 
 	Text := Text . "`n"
-	Text := Text . "`n" . "Win + W:`t`t" . " Close active-window"
+	Text := Text . "`n" . "Win + W:`t`t`t" . " Close active-window"
 	Text := Text . "`n" . "Win + A:`t`t`t" . " Toggle active-window always-on-top"
 	Text := Text . "`n" . "Win + S:`t`t`t" . " Set window size and position"
 	Text := Text . "`n" . "Win + T:`t`t`t" . " Set window transparency"
 	Text := Text . "`n" . "Win + C:`t`t`t" . " Center active-window on mouse monitor"
+	Text := Text . "`n" . "Win + F:`t`t`t" . " Fullscreen active-window on mouse monitor"
 
 	Text := Text . "`n"
 	Text := Text . "`n" . "Shift-Ctrl-Alt + LMouse:`t" . " Spam click left mouse button"
 
-	MsgBox, 0, AHK-Script v%G_Version% - Help, %Text%
+	Gui, Font, s10, Segoe UI
+	Gui, Add, Text,, %Text%
+	Gui, Add, Text, w450 +Center cGray, `nMade by Kim Simonsen (2021)
+	Gui, Show,, AHK-Script v%G_Version% - Help
+
+	; Close the window when you hit Escape.
+	return
+	GuiEscape:
+	Gui, Cancel
+	return
 }
 
 PrintWindowInfo(Window) {
