@@ -11,7 +11,7 @@ AutoTrim, Off
 SetWinDelay, 25
 
 ; GLobal variables.
-global G_Version := "0.0.0"
+global G_Version := "0.1.0"
 global G_CapsLockRebind := true
 
 ; endregion

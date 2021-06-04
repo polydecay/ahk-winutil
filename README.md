@@ -1,7 +1,9 @@
 # AHK-WinUtil
-My AutoHotkey script made for Windows 10.
+My personal AutoHotkey script for Windows 10.
 
 ## Keybindings
+Caps Lock has been rebound to `Ctrl+Shift+Alt` to act as an additional modifier key. This can be toggled on/off with `Pause + Caps`
+
 ```text
 Pause + Esc:              Toggle AHK-WinUtil on/off
 Pause + H:                Print AHK-WinUtil help
@@ -30,6 +32,8 @@ Win + F:                  Fullscreen active-window on mouse monitor
 
 Shift-Ctrl-Alt + LMouse:  Spam click left mouse button
 ```
+
+_Keybindings can easily be changed or disabled at the top of the script._
 
 ## License
 Licensed under [The MIT License (MIT)](https://opensource.org/licenses/MIT) - Copyright &copy; 2021 Kim Simonsen.
