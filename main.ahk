@@ -1,5 +1,5 @@
 ; --------------------------------------------------------------------
-; Global Configuration
+; region Global Configuration
 
 ; AHK configuration.
 #NoEnv
@@ -14,8 +14,10 @@ SetWinDelay, 25
 global G_Version := "0.0.0"
 global G_CapsLockRebind := true
 
+; endregion
+
 ; --------------------------------------------------------------------
-; Keybindings
+; region Keybindings
 
 ; + = Shift, ^ = Ctrl, ! = Alt, # = WinKey
 
@@ -57,8 +59,10 @@ Return
 	*CapsLock Up:: SendInput {Blind}{Shift Up}{Ctrl Up}{Alt Up}
 #if
 
+; endregion
+
 ; --------------------------------------------------------------------
-; Temporary Hacks
+; region Temporary Hacks
 
 #if (A_ComputerName == "PD-DESKTOP")
 	; Thorttle mouse back button because of faulty hardware causing double clicks.
@@ -73,8 +77,10 @@ Return
 	Return
 #if
 
+; endregion
+
 ; --------------------------------------------------------------------
-; Window Resizing/Positioning Functions
+; region Window Resizing/Positioning Functions
 
 SmartDragWindow() {
 	CoordMode, Mouse
@@ -305,8 +311,10 @@ FullscreenWindow(Window, MonitorIndex) {
 	WinMove, ahk_id %Window%,, MonLeft, MonTop, MonWidth, MonHeight
 }
 
+; endregion
+
 ; --------------------------------------------------------------------
-; Window State Functions
+; region Window State Functions
 
 ToggleWindowAlwaysOnTop(Window) {
 	if (Window == "") {
@@ -484,8 +492,10 @@ ClearWindowRegion(Window) {
 	NudgeWindow(Window)
 }
 
+; endregion
+
 ; --------------------------------------------------------------------
-; Utility Functions
+; region Utility Functions
 
 PrintHelp() {
 	Text := "Pause + Esc:`t`t" . " Toggle AHK-WinUtil on/off"
@@ -565,8 +575,10 @@ CloseWindow(Window) {
 	WinClose, ahk_id %Window%
 }
 
+; endregion
+
 ; --------------------------------------------------------------------
-; Helper Functions
+; region Helper Functions
 
 ; Returns the 'active-window' by default. Passing "MouseWin" as a string
 ; will return the 'mouse-window'. You can also pass an 'ahk_id' and it'll be passed through.
@@ -660,3 +672,5 @@ GetMouseMonitor() {
 		}
 	}
 }
+
+; endregion
