@@ -60,16 +60,18 @@ Return
 ; --------------------------------------------------------------------
 ; Temporary Hacks
 
-; Thorttle mouse back button because of faulty hardware causing double clicks.
-XButton1::
-	if (A_TimeSincePriorHotkey < 150) {
-		Return
-	}
+#if (A_ComputerName == "PD-DESKTOP")
+	; Thorttle mouse back button because of faulty hardware causing double clicks.
+	XButton1::
+		if (A_TimeSincePriorHotkey < 150) {
+			Return
+		}
 
-	Send {XButton1 Down}
-	KeyWait XButton1
-	Send {XButton1 Up}
-Return
+		Send {XButton1 Down}
+		KeyWait XButton1
+		Send {XButton1 Up}
+	Return
+#if
 
 ; --------------------------------------------------------------------
 ; Window Resizing/Positioning Functions
