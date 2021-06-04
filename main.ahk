@@ -57,11 +57,6 @@ Return
 	*CapsLock Up:: SendInput {Blind}{Shift Up}{Ctrl Up}{Alt Up}
 #if
 
-#if GetKeyState("CapsLock", "P")
-	; voidtools Everything binding.
-	f:: SendInput {blind}{Shift Up}f{Shift Down}
-#if
-
 ; --------------------------------------------------------------------
 ; Temporary Hacks
 
