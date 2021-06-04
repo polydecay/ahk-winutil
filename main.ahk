@@ -520,6 +520,8 @@ PrintHelp() {
 	Text := Text . "`n"
 	Text := Text . "`n" . "Shift-Ctrl-Alt + LMouse:`t" . " Spam click left mouse button"
 
+	Gui, Destroy
+
 	Gui, Font, s10, Segoe UI
 	Gui, Add, Text,, %Text%
 	Gui, Add, Text, w450 +Center cGray, `nMade by Kim Simonsen (2021)
@@ -528,7 +530,7 @@ PrintHelp() {
 	; Close the window when you hit Escape.
 	return
 	GuiEscape:
-	Gui, Cancel
+	Gui, Destroy
 	return
 }
 
