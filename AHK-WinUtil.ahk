@@ -249,6 +249,21 @@ InteractiveWindowMove(Window) {
 		W := W * Mult
 		H := H * Mult
 	} else {
+		if (Size == "4k") {
+			Size := "3840x2160"
+		} else if (Size == "1440p") {
+			Size := "2560x1440"
+		} else if (Size == "1080p") {
+			Size := "1920x1080"
+		} else if (Size == "720p") {
+			Size := "1280x720"
+		} else if (Size == "480p") {
+			Size := "640x480"
+		} else if (Size == "fullscreen" || Size == "full") {
+			FullscreenWindow(Window, GetMouseMonitor())
+			Return
+		}
+
 		SizeSplit := StrSplit(Size, [",", "/", "x", A_Space])
 		W := SizeSplit[1]
 		H := SizeSplit[2]
