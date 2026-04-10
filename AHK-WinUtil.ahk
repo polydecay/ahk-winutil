@@ -71,7 +71,7 @@ Return
 ; region Temporary Hacks
 
 #if (A_ComputerName == "PD-DESKTOP")
-	; Thorttle mouse back button because of faulty hardware causing double clicks.
+	; Throttle mouse back button because of faulty hardware causing double clicks.
 	XButton1::
 		if (A_TimeSincePriorHotkey < 150) {
 			Return
@@ -388,7 +388,7 @@ SetWindowCaption(Window, Enable := true, KeepInnerSize := false) {
 	}
 
 	; Set the WS_DLGFRAME instead of WS_CAPTION because WS_CAPTION will mess with the WS_BORDER
-	; style. WS_CAPTION will also resize the window by 1 pixel in all diractions.
+	; style. WS_CAPTION will also resize the window by 1 pixel in all directions.
 	if (Enable) {
 		WinSet, Style, +0x400000, ahk_id %Window% ; Enable WS_DLGFRAME.
 	} else {
@@ -477,14 +477,14 @@ SetWindowRegion(Window) {
 
 	WinGetPos,,, W, H, ahk_id %Window%
 
-	; Show tooltip message and get regions TOP-RIGHT corner.
-	ToolTip Select TOP-RIGHT Corner, 0, -25
+	; Show tooltip message and get regions TOP-LEFT corner.
+	ToolTip Select TOP-LEFT Corner, 0, -25
 	KeyWait, LButton, D
 	MouseGetPos, MouseStartX, MouseStartY
 	KeyWait, LButton
 
-	; Show tooltip message and get regions BOTTOM-LEFT corner.
-	ToolTip Select BOTTOM-LEFT Corner, W - 166, H + 5
+	; Show tooltip message and get regions BOTTOM-RIGHT corner.
+	ToolTip Select BOTTOM-RIGHT Corner, W - 166, H + 5
 	KeyWait, LButton, D
 	MouseGetPos, MouseEndX, MouseEndY
 	KeyWait, LButton
