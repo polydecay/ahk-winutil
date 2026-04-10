@@ -59,6 +59,12 @@ Return
 	*CapsLock Up:: SendInput {Blind}{Shift Up}{Ctrl Up}{Alt Up}
 #if
 
+; Zoom the whole UI instead of just the editor font size in Visual Studio Code with Ctrl + Mouse Wheel.
+#IfWinActive Visual Studio Code
+	^WheelUp:: SendInput ^+{=}
+	^WheelDown:: SendInput ^-
+#IfWinActive
+
 ; endregion
 
 ; --------------------------------------------------------------------
