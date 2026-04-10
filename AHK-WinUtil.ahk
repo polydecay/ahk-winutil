@@ -297,7 +297,7 @@ InteractiveWindowTransparency(Window) {
 		Return
 	}
 
-	if (!RegExMatch(Transparency, "\d+|\d+\.\d+")) {
+	if (!RegExMatch(Transparency, "^(100(?:\.0+)?|[1-9]?\d(?:\.\d+)?)$")) {
 		MsgBox Transparency has to be a number between "0" and "100".
 		Return
 	}
@@ -624,9 +624,9 @@ GetWindowBorderStyle(Window) {
 	}
 
 	WinGet, WinStyle, Style, ahk_id %Window%
-	if (not WinStyle & 0xC00000) and (not WinStyle & 0x40000) {
+	if (!(WinStyle & 0xC00000) and !(WinStyle & 0x40000)) {
 		Return "NoBorders"
-	} else if (not WinStyle & 0x400000) {
+	} else if (!(WinStyle & 0x400000)) {
 		Return "NoCaption"
 	} else {
 		Return "Default"
