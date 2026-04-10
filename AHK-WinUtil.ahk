@@ -89,15 +89,18 @@ Return
 ; region Window Resizing/Positioning Functions
 
 SmartDragWindow() {
+	DpiContext := PushPerMonitorDpiAwareness()
 	CoordMode, Mouse
 	MouseGetPos, MouseX, MouseY, MouseWin
 	WinGetPos, X, Y, W, H, ahk_id %MouseWin%
 
 	if (IsProtectedWindow(MouseWin)) {
+		PopPerMonitorDpiAwareness(DpiContext)
 		Return
 	}
 
 	EdgeSize := 16
+	PopPerMonitorDpiAwareness(DpiContext)
 	if ((MouseX - X < EdgeSize) or (X + W - MouseX < EdgeSize)) {
 		DragWindow("X")
 	} else if ((MouseY - Y < EdgeSize) or (Y + H - MouseY < EdgeSize)) {
@@ -108,18 +111,21 @@ SmartDragWindow() {
 }
 
 DragWindow(Constraint := "") {
+	DpiContext := PushPerMonitorDpiAwareness()
 	CoordMode, Mouse
 	SetWinDelay, 0 ; Reduce the WinDelay to make the dragging smoother.
 
 	MouseGetPos, MouseLastX, MouseLastY, MouseWin
 
 	if (IsProtectedWindow(MouseWin)) {
+		PopPerMonitorDpiAwareness(DpiContext)
 		Return
 	}
 
 	; Abort if the window is maximized.
 	WinGet, WinStatus, MinMax, ahk_id %MouseWin%
 	if (WinStatus != 0) {
+		PopPerMonitorDpiAwareness(DpiContext)
 		return
 	}
 
@@ -150,14 +156,18 @@ DragWindow(Constraint := "") {
 		MouseLastX := MouseX
 		MouseLastY := MouseY
 	}
+
+	PopPerMonitorDpiAwareness(DpiContext)
 }
 
 SmartDragResizeWindow() {
+	DpiContext := PushPerMonitorDpiAwareness()
 	CoordMode, Mouse
 	MouseGetPos, MouseX, MouseY, MouseWin
 	WinGetPos, X, Y, W, H, ahk_id %MouseWin%
 
 	if (IsProtectedWindow(MouseWin)) {
+		PopPerMonitorDpiAwareness(DpiContext)
 		Return
 	}
 
@@ -176,22 +186,26 @@ SmartDragResizeWindow() {
 		Constraint := Constraint . "Right"
 	}
 
+	PopPerMonitorDpiAwareness(DpiContext)
 	DragResizeWindow(Constraint)
 }
 
 DragResizeWindow(ResizeFrom := "") {
+	DpiContext := PushPerMonitorDpiAwareness()
 	CoordMode, Mouse
 	SetWinDelay, 0 ; Reduce the WinDelay to make the dragging smoother.
 
 	MouseGetPos, MouseLastX, MouseLastY, MouseWin
 
 	if (IsProtectedWindow(MouseWin)) {
+		PopPerMonitorDpiAwareness(DpiContext)
 		Return
 	}
 
 	; Abort if the window is maximized.
 	WinGet, WinStatus, MinMax, ahk_id %MouseWin%
 	if (WinStatus != 0) {
+		PopPerMonitorDpiAwareness(DpiContext)
 		Return
 	}
 
@@ -237,6 +251,8 @@ DragResizeWindow(ResizeFrom := "") {
 		MouseLastX := MouseX
 		MouseLastY := MouseY
 	}
+
+	PopPerMonitorDpiAwareness(DpiContext)
 }
 
 InteractiveWindowMove(Window) {
@@ -678,6 +694,28 @@ MoveMouse(Units, Times := 1, Interval := 1) {
 		DllCall("mouse_event", uint, 1, int, Units, int, 0)
 		Times--
 		Sleep Interval
+	}
+}
+
+; Temporarily use per-monitor DPI coordinates so drag math stays stable across mixed-scale monitors.
+PushPerMonitorDpiAwareness() {
+	static User32 := DllCall("GetModuleHandle", "Str", "user32", "Ptr")
+	static SetThreadDpiAwarenessContext := User32 ? DllCall("GetProcAddress", "Ptr", User32, "AStr", "SetThreadDpiAwarenessContext", "Ptr") : 0
+
+	if (!SetThreadDpiAwarenessContext) {
+		Return 0
+	}
+
+	Return DllCall(SetThreadDpiAwarenessContext, "Ptr", -3, "Ptr")
+}
+
+; Restore the prior DPI context after drag operations finish.
+PopPerMonitorDpiAwareness(DpiContext) {
+	static User32 := DllCall("GetModuleHandle", "Str", "user32", "Ptr")
+	static SetThreadDpiAwarenessContext := User32 ? DllCall("GetProcAddress", "Ptr", User32, "AStr", "SetThreadDpiAwarenessContext", "Ptr") : 0
+
+	if (SetThreadDpiAwarenessContext and DpiContext) {
+		DllCall(SetThreadDpiAwarenessContext, "Ptr", DpiContext, "Ptr")
 	}
 }
 
